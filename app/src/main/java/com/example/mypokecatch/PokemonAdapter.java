@@ -1,5 +1,6 @@
 package com.example.mypokecatch;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,16 +10,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class PokemonAdapter extends RecyclerView.Adapter<PokemonViewHolder>
 {
     List<Pokemon> pokemons;
+    private OnPokemonListener onPokemonListener;
 
-    PokemonAdapter(List<Pokemon> pokemons)
+
+    PokemonAdapter(List<Pokemon> pokemons, OnPokemonListener listener)
     {
         this.pokemons = pokemons;
+        this.onPokemonListener = listener;
     }
 
     @NonNull
@@ -32,6 +35,7 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonViewHolder>
 
     @Override
     public void onBindViewHolder(@NonNull PokemonViewHolder holder, int position) {
+        holder.editBtn.setOnClickListener(view -> onPokemonListener.onPokemonClick(holder.getAdapterPosition()));
         Pokemon pokemon = pokemons.get(position);
         // set pokemon image
         Glide.with(holder.itemView.getContext()).
@@ -39,6 +43,11 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonViewHolder>
                 .into(holder.imageView);
         //set pokemon name
         holder.textView.setText(pokemon.getName());
+
+    }
+
+    public interface OnPokemonListener {
+        void onPokemonClick(int position);
     }
 
     @Override

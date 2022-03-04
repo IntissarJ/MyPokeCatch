@@ -1,11 +1,16 @@
 package com.example.mypokecatch;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -21,16 +26,17 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements PokemonAdapter.OnPokemonListener {
 
     private List<Pokemon> pokemons = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setConnection();
 
-        PokemonAdapter adapter = new PokemonAdapter(pokemons);
+        PokemonAdapter adapter = new PokemonAdapter(pokemons, this);
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
 
@@ -71,8 +77,15 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }, error -> {
                 });
-        RequestQueue queue;
-        queue = Volley.newRequestQueue(this);
+        RequestQueue queue = Volley.newRequestQueue(this);
         queue.add(jsonObjectRequest);
     }
+
+    @Override
+    public void onPokemonClick(int position) {
+        Pokemon p = pokemons.get(position);
+        Intent intent = new Intent(this, EditPokemon.class);
+        startActivity(intent);
+    }
+
 }
