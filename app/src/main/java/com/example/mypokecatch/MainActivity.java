@@ -3,6 +3,7 @@ package com.example.mypokecatch;
 import static android.content.ContentValues.TAG;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -36,12 +37,17 @@ public class MainActivity extends AppCompatActivity implements PokemonAdapter.On
         setContentView(R.layout.activity_main);
         setConnection();
 
-        PokemonAdapter adapter = new PokemonAdapter(pokemons, this);
-
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
-
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(adapter);
+//        PokemonAdapter adapter = new PokemonAdapter(pokemons, this);
+//        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+//        recyclerView.setAdapter(adapter);
+        if (savedInstanceState == null) {
+            PokemonAdapter adapter = new PokemonAdapter(pokemons, this);
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            PokemonOverviewFragment frag = new PokemonOverviewFragment(pokemons, adapter);
+            transaction.add(R.id.overviewContainer, frag);
+            transaction.commit();
+        }
     }
 
     void setConnection()
@@ -49,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements PokemonAdapter.On
         URL url;
         try
         {
-            url = new URL("https://pokeapi.co/api/v2/pokemon?limit=898");
+            url = new URL("https://pokeapi.co/api/v2/pokemon?limit=100");
             onInitializePokemons(url);
         }
         catch (MalformedURLException e)
