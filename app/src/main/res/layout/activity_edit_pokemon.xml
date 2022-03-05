@@ -25,6 +25,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
         android:text="TextView"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editPokeImage" />
 
@@ -41,5 +42,16 @@
         android:importantForAutofill="no"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/showPokemonName" />
+
+    <Button
+        android:id="@+id/savePokemon"
+        android:layout_width="140dp"
+        android:layout_height="49dp"
+        android:layout_marginStart="252dp"
+        android:layout_marginLeft="252dp"
+        android:layout_marginTop="44dp"
+        android:text="Save"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editPokeImage" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

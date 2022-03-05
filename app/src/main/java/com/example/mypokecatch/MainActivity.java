@@ -5,6 +5,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -85,7 +86,24 @@ public class MainActivity extends AppCompatActivity implements PokemonAdapter.On
         Pokemon p = pokemons.get(position);
         Intent intent = new Intent(this, EditPokemonActivity.class);
         intent.putExtra("pokemon_positions", p);
-        startActivity(intent);
+        startActivityForResult(intent, 0);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            Pokemon p = (Pokemon) data.getSerializableExtra("updated_pokemon");
+
+            for (int i = 0; i < this.pokemons.size(); i++) {
+                Pokemon iter = this.pokemons.get(i);
+                if (iter.getId() == p.getId()) {
+                    this.pokemons.set(i, p);
+                    model.updatePokemons(this.pokemons);
+                    break;
+                }
+            }
+        }
     }
 
 }
