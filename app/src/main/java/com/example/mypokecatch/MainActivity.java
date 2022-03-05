@@ -1,17 +1,12 @@
 package com.example.mypokecatch;
 
-import static android.content.ContentValues.TAG;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.lifecycle.ViewModelProvider;
 
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -35,37 +30,36 @@ public class MainActivity extends AppCompatActivity implements PokemonAdapter.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setConnection();
+        PokemonViewModel model = new ViewModelProvider(this).get(PokemonViewModel.class);
 
-//        PokemonAdapter adapter = new PokemonAdapter(pokemons, this);
-//        RecyclerView recyclerView = findViewById(R.id.recyclerView);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        recyclerView.setAdapter(adapter);
-        if (savedInstanceState == null) {
+        model.getPokemons().observe(this, pokemons -> {
+            // update UI
+            this.pokemons = pokemons;
             PokemonAdapter adapter = new PokemonAdapter(pokemons, this);
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             PokemonOverviewFragment frag = new PokemonOverviewFragment(pokemons, adapter);
             transaction.add(R.id.overviewContainer, frag);
             transaction.commit();
-        }
+        });
+
+//        PokemonAdapter adapter = new PokemonAdapter(pokemons, this);
+//        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+//        recyclerView.setAdapter(adapter);
+
     }
 
-    void setConnection()
-    {
+    void setConnection() {
         URL url;
-        try
-        {
+        try {
             url = new URL("https://pokeapi.co/api/v2/pokemon?limit=100");
             onInitializePokemons(url);
-        }
-        catch (MalformedURLException e)
-        {
+        } catch (MalformedURLException e) {
             e.printStackTrace();
         }
     }
 
-    void onInitializePokemons(URL url)
-    {
+    void onInitializePokemons(URL url) {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url.toString(), null,
                 response -> {
                     try {
@@ -82,7 +76,8 @@ public class MainActivity extends AppCompatActivity implements PokemonAdapter.On
                         e.printStackTrace();
                     }
                 }, error -> {
-                });
+        });
+
         RequestQueue queue = Volley.newRequestQueue(this);
         queue.add(jsonObjectRequest);
     }
@@ -90,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements PokemonAdapter.On
     @Override
     public void onPokemonClick(int position) {
         Pokemon p = pokemons.get(position);
-        Intent intent = new Intent(this, EditPokemon.class);
+        Intent intent = new Intent(this, EditPokemonActivity.class);
         startActivity(intent);
     }
 

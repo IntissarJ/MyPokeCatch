@@ -1,5 +1,7 @@
 package com.example.mypokecatch;
 
+import androidx.lifecycle.ViewModel;
+
 public class Pokemon {
 
     private int id;
