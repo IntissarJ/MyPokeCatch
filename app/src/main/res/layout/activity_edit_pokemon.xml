@@ -6,4 +6,40 @@
     android:layout_height="match_parent"
     tools:context=".EditPokemonActivity">
 
+    <ImageView
+        android:id="@+id/editPokeImage"
+        android:layout_width="376dp"
+        android:layout_height="298dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/showPokemonName"
+        android:layout_width="212dp"
+        android:layout_height="49dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:text="TextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editPokeImage" />
+
+    <EditText
+        android:id="@+id/editPokemonName"
+        android:layout_width="215dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="12dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Pokemon Name"
+        android:importantForAutofill="no"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/showPokemonName" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -35,7 +35,9 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonViewHolder>
 
     @Override
     public void onBindViewHolder(@NonNull PokemonViewHolder holder, int position) {
-        holder.editBtn.setOnClickListener(view -> onPokemonListener.onPokemonClick(holder.getAdapterPosition()));
+        holder.editBtn.setOnClickListener(view ->
+                onPokemonListener.onPokemonClick(holder.getBindingAdapterPosition()));
+
         Pokemon pokemon = pokemons.get(position);
         // set pokemon image
         Glide.with(holder.itemView.getContext()).

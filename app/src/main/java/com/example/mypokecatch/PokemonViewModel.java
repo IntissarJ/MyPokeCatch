@@ -39,6 +39,11 @@ public class PokemonViewModel extends AndroidViewModel {
         return pokemons;
     }
 
+    public Pokemon getPokemon(int id){
+        if (pokemons.getValue().size() < id || id < 0) return null;
+        return pokemons.getValue().get(id);
+    }
+
     private void loadUsers() {
         // Do an asynchronous operation to fetch users.
         List<Pokemon> pks = setConnection();

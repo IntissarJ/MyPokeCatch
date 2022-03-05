@@ -25,14 +25,18 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements PokemonAdapter.OnPokemonListener {
 
     private List<Pokemon> pokemons = new ArrayList<>();
+    private PokemonViewModel model;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        PokemonViewModel model = new ViewModelProvider(this).get(PokemonViewModel.class);
+        this.model = new ViewModelProvider(this).get(PokemonViewModel.class);
+        updatePokemons();
+    }
 
-        model.getPokemons().observe(this, pokemons -> {
+    public void updatePokemons(){
+        this.model.getPokemons().observe(this, pokemons -> {
             // update UI
             this.pokemons = pokemons;
             PokemonAdapter adapter = new PokemonAdapter(pokemons, this);
@@ -41,12 +45,6 @@ public class MainActivity extends AppCompatActivity implements PokemonAdapter.On
             transaction.add(R.id.overviewContainer, frag);
             transaction.commit();
         });
-
-//        PokemonAdapter adapter = new PokemonAdapter(pokemons, this);
-//        RecyclerView recyclerView = findViewById(R.id.recyclerView);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        recyclerView.setAdapter(adapter);
-
     }
 
     void setConnection() {
@@ -86,6 +84,7 @@ public class MainActivity extends AppCompatActivity implements PokemonAdapter.On
     public void onPokemonClick(int position) {
         Pokemon p = pokemons.get(position);
         Intent intent = new Intent(this, EditPokemonActivity.class);
+        intent.putExtra("pokemon_positions", p);
         startActivity(intent);
     }
 

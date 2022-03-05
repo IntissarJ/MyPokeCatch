@@ -1,8 +1,8 @@
 package com.example.mypokecatch;
 
-import androidx.lifecycle.ViewModel;
+import java.io.Serializable;
 
-public class Pokemon {
+public class Pokemon implements Serializable {
 
     private int id;
     private String name;
