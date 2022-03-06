@@ -5,7 +5,6 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -17,7 +16,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.mypokecatch.database.Pokemon;
-import com.example.mypokecatch.database.PokemonViewModel;
+import com.example.mypokecatch.ViewModel.PokemonViewModel;
 
 import java.util.ArrayList;
 import java.util.List;

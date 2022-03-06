@@ -23,6 +23,7 @@ import java.net.URL;
 
 public class DataService extends Service {
 
+    private static final String TAG = "DATA_SERVICE";
     private PokemonRepository repo;
     static String pokis_been_filled = "pokis_been_filled";
 
@@ -90,6 +91,7 @@ public class DataService extends Service {
                                     name.substring(0, 1).toUpperCase() + name.substring(1),
                                     result.getString("url")
                             ));
+                            Log.d(TAG, "onInitializePokemons: " + repo.pokeTableCount());
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
