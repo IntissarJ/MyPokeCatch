@@ -1,4 +1,4 @@
-package com.example.mypokecatch;
+package com.example.mypokecatch.ViewModel;
 
 import android.app.Application;
 import android.widget.Toast;
@@ -12,6 +12,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.mypokecatch.model.Pokemon;
 
 import org.json.JSONArray;
 import org.json.JSONException;

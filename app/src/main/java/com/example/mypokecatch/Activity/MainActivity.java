@@ -1,8 +1,11 @@
-package com.example.mypokecatch;
+package com.example.mypokecatch.Activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 
 import android.content.Intent;
@@ -10,13 +13,22 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.SearchView;
+import android.widget.Toast;
+
+import com.example.mypokecatch.Adapter.PokemonAdapter;
+import com.example.mypokecatch.EditPokemonActivity;
+import com.example.mypokecatch.PokeCatch;
+import com.example.mypokecatch.PokemonOverviewFragment;
+import com.example.mypokecatch.R;
+import com.example.mypokecatch.ViewModel.PokemonViewModel;
+import com.example.mypokecatch.model.Pokemon;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements PokemonAdapter.OnPokemonListener {
 
-    private List<Pokemon> pokemons = new ArrayList<>();
+    private List<Pokemon> pokemons;
     private PokemonAdapter adapter;
 
     @Override
@@ -35,14 +47,17 @@ public class MainActivity extends AppCompatActivity implements PokemonAdapter.On
             transaction.commit();
         });
 
+
+
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
 
-        MenuItem menuItem = menu.findItem(R.id.action_search);
-        SearchView searchview = (SearchView) menuItem.getActionView();
+        // Search menu item
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchView searchview = (SearchView) searchItem.getActionView();
         searchview.setQueryHint("Type voor pokemon naam");
         searchview.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -58,6 +73,29 @@ public class MainActivity extends AppCompatActivity implements PokemonAdapter.On
             }
         });
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        switch(item.getItemId())
+        {
+            case R.id.menu_pokedex:
+                Intent home = new Intent(this, MainActivity.class);
+                startActivity(home);
+                Toast.makeText(this, "Pokedex", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.menu_pokecatch:
+                Intent pokeCatching = new Intent(this, PokeCatch.class);
+                startActivity(pokeCatching);
+                Toast.makeText(this, "PokeCatch", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.menu_inventory:
+                Toast.makeText(this, "Your pokemons", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override

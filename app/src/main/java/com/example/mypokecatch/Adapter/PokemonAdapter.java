@@ -1,10 +1,8 @@
-package com.example.mypokecatch;
+package com.example.mypokecatch.Adapter;
 
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 
@@ -12,6 +10,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.mypokecatch.R;
+import com.example.mypokecatch.ViewModel.PokemonViewHolder;
+import com.example.mypokecatch.model.Pokemon;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,9 +23,10 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonViewHolder> impl
     private List<Pokemon> pokemonsFiltered;
     private OnPokemonListener onPokemonListener;
 
-    PokemonAdapter(List<Pokemon> pokemons, OnPokemonListener listener)
+    public PokemonAdapter(List<Pokemon> pokemons, OnPokemonListener listener)
     {
         this.pokemons = pokemons;
+        this.pokemonsFiltered = pokemons;
         this.onPokemonListener = listener;
     }
 
@@ -33,25 +35,22 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonViewHolder> impl
     public PokemonViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.pokemon_item, parent, false);
-
         return new PokemonViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull PokemonViewHolder holder, int position) {
-        holder.editBtn.setOnClickListener(view -> onPokemonListener.onPokemonClick(holder.getAdapterPosition()));
+        holder.getEditBtn().setOnClickListener(view -> onPokemonListener.onPokemonClick(holder.getAdapterPosition()));
         Pokemon pokemon;
-        if(pokemonsFiltered != null){
-             pokemon = pokemonsFiltered.get(position);
-        }else {
-            pokemon = pokemons.get(position);
-        }
+        pokemon = pokemonsFiltered.get(position);
+
         // set pokemon image
         Glide.with(holder.itemView.getContext()).
                 load("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/"+ pokemon.getId() +".png")
-                .into(holder.imageView);
+                .into(holder.getImageView());
         //set pokemon name
-        holder.textView.setText(pokemon.getName());
+        holder.getTextView().setText(pokemon.getName());
+
 
     }
 
@@ -66,7 +65,6 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonViewHolder> impl
                 } else {
                     List<Pokemon> filteredList = new ArrayList<>();
                     for (Pokemon row : pokemons) {
-
                         // name match condition
                         // here we are looking for name match
                         if (row.getName().toLowerCase().contains(charString.toLowerCase())) {
@@ -94,10 +92,6 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonViewHolder> impl
 
     @Override
     public int getItemCount() {
-        if (pokemonsFiltered == null){
-            return pokemons.size();
-        }else{
-            return pokemonsFiltered.size();
-        }
+        return pokemonsFiltered.size();
     }
 }

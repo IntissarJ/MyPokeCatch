@@ -1,6 +1,4 @@
-package com.example.mypokecatch;
-
-import androidx.lifecycle.ViewModel;
+package com.example.mypokecatch.model;
 
 public class Pokemon {
 
@@ -8,7 +6,7 @@ public class Pokemon {
     private String name;
     private String url;
 
-    Pokemon(String name, String url){
+    public Pokemon(String name, String url){
         this.url = url;
         this.name = name;
     }
