@@ -1,18 +1,18 @@
 package com.example.mypokecatch;
 
-import android.app.Application;
+import android.app.Service;
+import android.content.Intent;
+import android.os.IBinder;
+import android.util.Log;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.mypokecatch.database.PokemonRepository;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -20,41 +20,42 @@ import org.json.JSONObject;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 
-public class PokemonViewModel extends AndroidViewModel {
+public class DataService extends Service {
 
-    private MutableLiveData<List<Pokemon>> pokemons;
+    private PokemonRepository repo;
+    static String pokis_been_filled = "pokis_been_filled";
 
-    public PokemonViewModel(@NonNull Application application) {
-        super(application);
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
     }
 
-    public LiveData<List<Pokemon>> getPokemons() {
-        if (pokemons == null) {
-            pokemons = new MutableLiveData<>();
-            loadUsers();
-        }
-        return pokemons;
+    @Override
+    public void onCreate() {
+        super.onCreate();
     }
 
-    public Pokemon getPokemon(int id){
-        if (pokemons.getValue().size() < id || id < 0) return null;
-        return pokemons.getValue().get(id);
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        this.repo = new PokemonRepository(this.getApplication());
+        if (setConnection()){
+            Intent bent = new Intent("custom-event-name");
+            Boolean b = repo.isPokemonTableEmpty();
+            String k = b ? "true" : "false";
+            bent.putExtra("message", k);
+            LocalBroadcastManager.getInstance(this).sendBroadcast(bent);
+            stopSelf();
+        };
+        return START_NOT_STICKY;
     }
 
-    public void updatePokemons(List<Pokemon> pokes) {
-        pokemons.setValue(pokes);
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 
-    private void loadUsers() {
-        // Do an asynchronous operation to fetch users.
-        List<Pokemon> pks = setConnection();
-        pokemons.setValue(pks);
-    }
-
-    private List<Pokemon> setConnection()
+    private boolean setConnection()
     {
         URL url;
         try
@@ -66,12 +67,16 @@ public class PokemonViewModel extends AndroidViewModel {
         {
             e.printStackTrace();
         }
-        return null;
+        return false;
     }
 
-    private List<Pokemon> onInitializePokemons(URL url)
+    private boolean onInitializePokemons(URL url)
     {
-        List<Pokemon> pks = new ArrayList<>();
+//        repo.deleteAllPokemons();
+
+        if (repo.pokeTableCount() > 0) {
+            return true;
+        }
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url.toString(), null,
                 response -> {
@@ -80,7 +85,8 @@ public class PokemonViewModel extends AndroidViewModel {
                         for (int i = 0; i < results.length(); i++) {
                             JSONObject result = results.getJSONObject(i);
                             String name = result.getString("name");
-                            pks.add(new Pokemon(
+
+                            repo.insert(new com.example.mypokecatch.database.Pokemon(
                                     name.substring(0, 1).toUpperCase() + name.substring(1),
                                     result.getString("url")
                             ));
@@ -94,7 +100,7 @@ public class PokemonViewModel extends AndroidViewModel {
 
         RequestQueue queue = Volley.newRequestQueue(this.getApplication());
         queue.add(jsonObjectRequest);
-        return pks;
+        Log.d("sender", repo.pokeTableCount().toString());
+        return true;
     }
-
 }

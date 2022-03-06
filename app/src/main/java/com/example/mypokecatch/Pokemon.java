@@ -8,7 +8,7 @@ public class Pokemon implements Serializable {
     private String name;
     private String url;
 
-    Pokemon(String name, String url){
+    public Pokemon(String name, String url){
         this.url = url;
         this.name = name;
     }
