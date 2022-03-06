@@ -17,8 +17,6 @@ public class PokemonViewHolder extends RecyclerView.ViewHolder
     TextView textView;
     Button editBtn;
 
-    private RequestQueue requestQueue;
-
     public PokemonViewHolder(@NonNull View itemView) {
         super(itemView);
         imageView = itemView.findViewById(R.id.imageView);
