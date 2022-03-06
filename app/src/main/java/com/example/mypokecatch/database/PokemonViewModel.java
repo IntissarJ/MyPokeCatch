@@ -19,16 +19,18 @@ import java.util.List;
 public class PokemonViewModel extends AndroidViewModel {
 
     private PokemonRepository repository;
-    private LiveData<List<Pokemon>> pokemons = new MutableLiveData<>();
+    private static final String TAG = "POKI_VM";
+    private LiveData<List<Pokemon>> pokemons;
+    private List<Pokemon> pokemon2;
 
     public PokemonViewModel(@NonNull Application application) {
         super(application);
         repository = new PokemonRepository(application);
-        Log.d("vm", "Repo made");
-        updateVM();
+//        updateVM();
     }
 
     public boolean updateVM(){
+        Log.d(TAG, "updateVM: count is: " + getVMCount());
         this.pokemons = repository.getAllPokemons();
         return true;
     }
@@ -52,31 +54,13 @@ public class PokemonViewModel extends AndroidViewModel {
     public boolean isEmpty() { return repository.isPokemonTableEmpty(); }
 
     public LiveData<List<Pokemon>> getAllPokemons() {
+        if (this.pokemons == null) return null;
         return pokemons;
-    }
-
-    public Integer getCount(){
-        return repository.pokeTableCount();
     }
 
     public Integer getVMCount(){
         return repository.pokeTableCount();
     }
-
-
-    // TODO old
-
-//    public void updatePokemons(List<com.example.mypokecatch.Pokemon> pokes) {
-//        pokemons.setValue(pokes);
-//    }
-
-//    public LiveData<List<Pokemon>> getPokemons() {
-//        if (pokemons == null) {
-//            pokemons = new MutableLiveData<>();
-//            loadUsers();
-//        }
-//        return pokemons;
-//    }
 
 
 

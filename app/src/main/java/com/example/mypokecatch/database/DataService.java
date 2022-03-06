@@ -1,4 +1,4 @@
-package com.example.mypokecatch;
+package com.example.mypokecatch.database;
 
 import android.app.Service;
 import android.content.Intent;

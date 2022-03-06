@@ -16,7 +16,7 @@
         android:usesCleartextTraffic="true">
 
         <service
-            android:name=".DataService"
+            android:name=".database.DataService"
             android:enabled="true"
             android:exported="true" />
 

@@ -4,7 +4,6 @@ import android.app.Application;
 import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -16,6 +15,7 @@ public class PokemonRepository {
     public PokemonRepository(Application application) {
         PokemonDatabase database = PokemonDatabase.getInstance(application);
         PokemonDao = database.pokemonDao();
+        allPokemons = PokemonDao.getAllPokemons();
     }
 
     public void insert(Pokemon Pokemon) {

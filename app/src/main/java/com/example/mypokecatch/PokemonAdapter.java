@@ -25,6 +25,10 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonViewHolder>
         this.onPokemonListener = listener;
     }
 
+    public int getPokemonId(int position){
+        return pokemons.get(position).getId();
+    }
+
     public void updateAdapter(List<Pokemon> pokemons) {
         this.pokemons = pokemons;
     }

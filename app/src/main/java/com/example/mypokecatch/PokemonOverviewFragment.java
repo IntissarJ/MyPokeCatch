@@ -19,14 +19,13 @@ public class PokemonOverviewFragment extends Fragment {
 
     private final PokemonAdapter adapter;
 
-    public PokemonOverviewFragment(List<Pokemon> pokemons, PokemonAdapter adapter) {
+    public PokemonOverviewFragment(PokemonAdapter adapter) {
         this.adapter = adapter;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -42,16 +41,4 @@ public class PokemonOverviewFragment extends Fragment {
         // Inflate the layout for this fragment
         return root;
     }
-
-
-//    // TODO: Rename and change types and number of parameters
-//    public static PokemonOverviewFragment newInstance(String param1, String param2) {
-//        PokemonOverviewFragment fragment = new PokemonOverviewFragment();
-//        Bundle args = new Bundle();
-////        args.putString(ARG_PARAM1, param1);
-////        args.putString(ARG_PARAM2, param2);
-////        fragment.setArguments(args);
-//        return fragment;
-//    }
-
 }

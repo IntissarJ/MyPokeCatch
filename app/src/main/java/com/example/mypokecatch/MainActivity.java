@@ -2,7 +2,6 @@ package com.example.mypokecatch;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
@@ -13,9 +12,9 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 
+import com.example.mypokecatch.database.DataService;
 import com.example.mypokecatch.database.PokemonViewModel;
 import com.example.mypokecatch.database.Pokemon;
 
@@ -24,7 +23,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements PokemonAdapter.OnPokemonListener {
 
-    private List<Pokemon> pokemons = new ArrayList<>();
+    private static final String TAG = "MAIN_ACTIVITY";
     private PokemonViewModel model;
     private PokemonAdapter adapter;
 
@@ -36,9 +35,10 @@ public class MainActivity extends AppCompatActivity implements PokemonAdapter.On
         LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
                 new IntentFilter("custom-event-name"));
 
+        List<Pokemon> pokemons = new ArrayList<>();
         adapter = new PokemonAdapter(pokemons, this);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        PokemonOverviewFragment frag = new PokemonOverviewFragment(pokemons, adapter);
+        PokemonOverviewFragment frag = new PokemonOverviewFragment(adapter);
         transaction.add(R.id.overviewContainer, frag);
         transaction.commit();
         Button rBtn = findViewById(R.id.refreshBtn);
@@ -83,9 +83,10 @@ public class MainActivity extends AppCompatActivity implements PokemonAdapter.On
 
     @Override
     public void onPokemonClick(int position) {
-//        Pokemon p = pokemons.get(position);
+        Log.d(TAG, "onPokemonClick: " + position);
+        Log.d(TAG, "onPokemonClick: " + adapter.getPokemonId(position));
         Intent intent = new Intent(this, EditPokemonActivity.class);
-        intent.putExtra("pokemon_positions", position);
+        intent.putExtra("pokemon_position", adapter.getPokemonId(position));
         startActivityForResult(intent, 0);
     }
 
