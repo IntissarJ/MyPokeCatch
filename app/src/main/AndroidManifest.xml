@@ -13,11 +13,12 @@
         android:theme="@style/Theme.MyPokeCatch"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".SettingsActivity"
+            android:exported="false" />
+        <activity
             android:name=".EditPokemonActivity"
             android:exported="false"
-            android:parentActivityName=".MainActivity">
-        </activity>
-
+            android:parentActivityName=".MainActivity"></activity>
         <activity
             android:name=".MainActivity"
             android:exported="true"
