@@ -1,19 +1,15 @@
-package com.example.mypokecatch.database;
+package com.example.mypokecatch.ViewModel;
 
 import android.app.Application;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
-import com.example.mypokecatch.PokemonAdapter;
-import com.example.mypokecatch.PokemonOverviewFragment;
-import com.example.mypokecatch.R;
+import com.example.mypokecatch.database.Pokemon;
+import com.example.mypokecatch.database.PokemonRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class PokemonViewModel extends AndroidViewModel {
@@ -21,12 +17,11 @@ public class PokemonViewModel extends AndroidViewModel {
     private PokemonRepository repository;
     private static final String TAG = "POKI_VM";
     private LiveData<List<Pokemon>> pokemons;
-    private List<Pokemon> pokemon2;
 
     public PokemonViewModel(@NonNull Application application) {
         super(application);
         repository = new PokemonRepository(application);
-//        updateVM();
+        updateVM();
     }
 
     public boolean updateVM(){
@@ -35,15 +30,15 @@ public class PokemonViewModel extends AndroidViewModel {
         return true;
     }
 
-    public void insert(Pokemon pokemon) {
+    public void insert(com.example.mypokecatch.database.Pokemon pokemon) {
         repository.insert(pokemon);
     }
 
-    public void update(Pokemon pokemon) {
+    public void update(com.example.mypokecatch.database.Pokemon pokemon) {
         repository.update(pokemon);
     }
 
-    public void delete(Pokemon pokemon) {
+    public void delete(com.example.mypokecatch.database.Pokemon pokemon) {
         repository.delete(pokemon);
     }
 
@@ -61,7 +56,6 @@ public class PokemonViewModel extends AndroidViewModel {
     public Integer getVMCount(){
         return repository.pokeTableCount();
     }
-
 
 
 }

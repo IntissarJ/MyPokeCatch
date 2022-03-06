@@ -7,13 +7,11 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.example.mypokecatch.database.Pokemon;
+import com.example.mypokecatch.Adapter.PokemonAdapter;
 
-import java.util.List;
 
 public class PokemonOverviewFragment extends Fragment {
 
