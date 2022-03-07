@@ -45,15 +45,16 @@ public class InventoryActivity extends AppCompatActivity implements PokemonAdapt
         setContentView(R.layout.activity_inventory);
         modelInventory = new ViewModelProvider(this).get(InventoryViewModel.class);
         modelPokemon = new ViewModelProvider(this).get(PokemonViewModel.class);
+        adapter = new PokemonAdapter(new ArrayList<>(), this);
+        RecyclerView recyclerView = findViewById(R.id.inventoryRecycler);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(this.adapter);
+
         modelInventory.getInventory().observe(this, inv -> {
             if (inv != null) {
                 setupView(inv);
             }
         });
-        adapter = new PokemonAdapter(new ArrayList<>(), this);
-        RecyclerView recyclerView = findViewById(R.id.inventoryRecycler);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(this.adapter);
     }
 
     private void setupView(Inventory inventory) {

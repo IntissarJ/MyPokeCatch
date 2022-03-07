@@ -9,11 +9,9 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/pokedexRecycler"
-        android:layout_width="412dp"
-        android:layout_height="675dp"
-        android:layout_marginTop="60dp"
+        android:layout_width="413dp"
+        android:layout_height="726dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

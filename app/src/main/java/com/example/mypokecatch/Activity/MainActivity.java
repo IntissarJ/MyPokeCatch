@@ -45,21 +45,24 @@ public class MainActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        model = new ViewModelProvider(this).get(PokemonViewModel.class);
         LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
                 new IntentFilter("custom-event-name"));
 
         List<Pokemon> pokemons = new ArrayList<>();
-//        pokedexRecycler
+        //        pokedexRecycler
         adapter = new PokeDexAdapter(new ArrayList<>());
-        RecyclerView recyclerView = findViewById(R.id.inventoryRecycler);
+        RecyclerView recyclerView = findViewById(R.id.pokedexRecycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(this.adapter);
-
         startDataService();
 
-        model = new ViewModelProvider(this).get(PokemonViewModel.class);
-
+        model.getAllPokemons().observe(this , pokis -> {
+            if (pokis != null) {
+                adapter.updateAdapter(pokis);
+                adapter.notifyDataSetChanged();
+            }
+        });
     }
 
     private void RefreshData() {

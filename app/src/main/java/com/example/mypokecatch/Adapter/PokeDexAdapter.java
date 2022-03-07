@@ -20,12 +20,17 @@ import java.util.List;
 public class PokeDexAdapter extends RecyclerView.Adapter<PokemonViewHolder> implements Filterable
 {
     private List<Pokemon> pokemons;
+
     private List<Pokemon> pokemonsFiltered;
 
     public PokeDexAdapter(List<Pokemon> pokemons)
     {
         this.pokemons = pokemons;
         this.pokemonsFiltered = pokemons;
+    }
+
+    public PokeDexAdapter() {
+
     }
 
     public int getPokemonId(int position){
@@ -92,5 +97,13 @@ public class PokeDexAdapter extends RecyclerView.Adapter<PokemonViewHolder> impl
     @Override
     public int getItemCount() {
         return pokemonsFiltered.size();
+    }
+
+    public List<Pokemon> getPokemonsFiltered() {
+        return pokemonsFiltered;
+    }
+
+    public void setPokemonsFiltered(List<Pokemon> pokemonsFiltered) {
+        this.pokemonsFiltered = pokemonsFiltered;
     }
 }
