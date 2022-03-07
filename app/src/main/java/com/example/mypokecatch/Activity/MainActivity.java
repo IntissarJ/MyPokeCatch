@@ -6,6 +6,8 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -16,9 +18,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import com.example.mypokecatch.Adapter.PokeDexAdapter;
 import com.example.mypokecatch.Adapter.PokemonAdapter;
 import com.example.mypokecatch.EditPokemonActivity;
 import com.example.mypokecatch.PokeCatch;
@@ -31,10 +35,10 @@ import com.example.mypokecatch.database.PokemonData.Pokemon;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements PokemonAdapter.OnPokemonListener{
+public class MainActivity extends AppCompatActivity{
 
     private static final String TAG = "MAIN_ACTIVITY";
-    private PokemonAdapter adapter;
+    private PokeDexAdapter adapter;
     private PokemonViewModel model;
 
     @Override
@@ -46,16 +50,11 @@ public class MainActivity extends AppCompatActivity implements PokemonAdapter.On
                 new IntentFilter("custom-event-name"));
 
         List<Pokemon> pokemons = new ArrayList<>();
-        adapter = new PokemonAdapter(pokemons, this);
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        PokemonOverviewFragment frag = new PokemonOverviewFragment(adapter);
-        transaction.add(R.id.overviewContainer, frag);
-//        transaction.commit();
-//        Button rBtn = findViewById(R.id.refreshBtn);
-//        rBtn.setOnClickListener(view -> {
-//            Log.d("btn", "" + model.getVMCount());
-//            RefreshData();
-//        });
+//        pokedexRecycler
+        adapter = new PokeDexAdapter(new ArrayList<>());
+        RecyclerView recyclerView = findViewById(R.id.inventoryRecycler);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(this.adapter);
 
         startDataService();
 
@@ -65,15 +64,15 @@ public class MainActivity extends AppCompatActivity implements PokemonAdapter.On
 
     private void RefreshData() {
         model.updateVM();
-        if (model.getVMCount() > 0) {
-            model.getAllPokemons().observe(this, new Observer<List<Pokemon>>() {
-                @Override
-                public void onChanged(List<Pokemon> pokemons) {
-                    adapter.updateAdapter(pokemons);
-                    adapter.notifyDataSetChanged();
-                }
-            });
-        }
+//        if (model.getVMCount() > 0) {
+//            model.getAllPokemons().observe(this, new Observer<List<Pokemon>>() {
+//                @Override
+//                public void onChanged(List<Pokemon> pokemons) {
+//                    adapter.updateAdapter(pokemons);
+//                    adapter.notifyDataSetChanged();
+//                }
+//            });
+//        }
     }
 
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
@@ -94,15 +93,6 @@ public class MainActivity extends AppCompatActivity implements PokemonAdapter.On
     public void startDataService() {
         Intent intent = new Intent(getApplication(), DataService.class);
         startService(intent);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK) {
-            Pokemon p = (Pokemon) data.getSerializableExtra("updated_pokemon");
-            this.model.update(p);
-        }
     }
 
     @Override
@@ -159,9 +149,4 @@ public class MainActivity extends AppCompatActivity implements PokemonAdapter.On
         }
     }
 
-
-    @Override
-    public void onPokemonClick(int position) {
-
-    }
 }

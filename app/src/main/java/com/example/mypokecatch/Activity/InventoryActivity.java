@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -49,7 +50,7 @@ public class InventoryActivity extends AppCompatActivity implements PokemonAdapt
                 setupView(inv);
             }
         });
-        adapter = new PokemonAdapter(new ArrayList<Pokemon>(), this);
+        adapter = new PokemonAdapter(new ArrayList<>(), this);
         RecyclerView recyclerView = findViewById(R.id.inventoryRecycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(this.adapter);
@@ -106,4 +107,14 @@ public class InventoryActivity extends AppCompatActivity implements PokemonAdapt
         intent.putExtra("pokemon_position", adapter.getPokemonId(position));
         startActivityForResult(intent, 0);
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            Pokemon p = (Pokemon) data.getSerializableExtra("updated_pokemon");
+            modelPokemon.update(p);
+        }
+    }
+
 }
