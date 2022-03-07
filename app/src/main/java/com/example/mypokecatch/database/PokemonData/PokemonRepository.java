@@ -137,4 +137,32 @@ public class PokemonRepository {
         }
     }
 
+    private static class GetAllPokemonsAsyncTask extends AsyncTask<Void, Void, Void> {
+        private PokemonDao PokemonDao;
+
+        private GetAllPokemonsAsyncTask(PokemonDao PokemonDao) {
+            this.PokemonDao = PokemonDao;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            PokemonDao.deleteAllPokemons();
+            return null;
+        }
+    }
+
+    private static class GetAPokemonAsyncTask extends AsyncTask<Void, Void, Void> {
+        private PokemonDao PokemonDao;
+
+        private GetAPokemonAsyncTask(PokemonDao PokemonDao) {
+            this.PokemonDao = PokemonDao;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            PokemonDao.deleteAllPokemons();
+            return null;
+        }
+    }
+
 }

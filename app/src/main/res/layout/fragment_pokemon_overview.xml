@@ -17,8 +17,8 @@
                     android:layout_width="410dp"
                     android:layout_height="730dp"
                     android:tag="pokemonRecycleView"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:layout_editor_absoluteX="1dp" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -25,7 +25,6 @@ public class PokemonViewModel extends AndroidViewModel {
     }
 
     public boolean updateVM(){
-        Log.d(TAG, "updateVM: count is: " + getVMCount());
         this.pokemons = repository.getAllPokemons();
         return true;
     }

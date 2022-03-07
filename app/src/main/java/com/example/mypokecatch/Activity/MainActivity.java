@@ -31,7 +31,7 @@ import com.example.mypokecatch.database.PokemonData.Pokemon;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements PokemonAdapter.OnPokemonListener {
+public class MainActivity extends AppCompatActivity implements PokemonAdapter.OnPokemonListener{
 
     private static final String TAG = "MAIN_ACTIVITY";
     private PokemonAdapter adapter;
@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements PokemonAdapter.On
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         PokemonOverviewFragment frag = new PokemonOverviewFragment(adapter);
         transaction.add(R.id.overviewContainer, frag);
-        transaction.commit();
+//        transaction.commit();
 //        Button rBtn = findViewById(R.id.refreshBtn);
 //        rBtn.setOnClickListener(view -> {
 //            Log.d("btn", "" + model.getVMCount());
@@ -94,16 +94,6 @@ public class MainActivity extends AppCompatActivity implements PokemonAdapter.On
     public void startDataService() {
         Intent intent = new Intent(getApplication(), DataService.class);
         startService(intent);
-    }
-
-
-    @Override
-    public void onPokemonClick(int position) {
-        Log.d(TAG, "onPokemonClick: " + position);
-        Log.d(TAG, "onPokemonClick: " + adapter.getPokemonId(position));
-        Intent intent = new Intent(this, EditPokemonActivity.class);
-        intent.putExtra("pokemon_position", adapter.getPokemonId(position));
-        startActivityForResult(intent, 0);
     }
 
     @Override
@@ -170,10 +160,8 @@ public class MainActivity extends AppCompatActivity implements PokemonAdapter.On
     }
 
 
+    @Override
+    public void onPokemonClick(int position) {
 
-
-
-
-
-
+    }
 }

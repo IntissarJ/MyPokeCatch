@@ -5,20 +5,25 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.mypokecatch.Adapter.PokemonAdapter;
+import com.example.mypokecatch.EditPokemonActivity;
 import com.example.mypokecatch.PokeCatch;
 import com.example.mypokecatch.R;
 import com.example.mypokecatch.ViewModel.InventoryViewModel;
 import com.example.mypokecatch.ViewModel.PokemonViewModel;
 import com.example.mypokecatch.database.InventoryData.Inventory;
+import com.example.mypokecatch.database.InventoryPokemonData.InventoryWithPokemons;
 import com.example.mypokecatch.database.PokemonData.Pokemon;
 
 import java.util.ArrayList;
@@ -28,30 +33,43 @@ public class InventoryActivity extends AppCompatActivity implements PokemonAdapt
 
     private static final String TAG = "INVENTORY_ACTIVITY";
     private PokemonAdapter adapter;
-    private InventoryViewModel model;
+    private InventoryViewModel modelInventory;
     private Inventory inventory;
+    private InventoryWithPokemons inventoryWithPokemons;
+    private PokemonViewModel modelPokemon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inventory);
-        model = new ViewModelProvider(this).get(InventoryViewModel.class);
-
-        model.getInventory().observe(this, new Observer<Inventory>() {
-            @Override
-            public void onChanged(Inventory inv) {
-                if (inv != null){
-                    inventory = inv;
-                    Log.d(TAG, "onChanged: " + inventory.getInventoryId());
-                } else {
-                    inventory = new Inventory();
-                    model.insert(inventory);
-                }
+        modelInventory = new ViewModelProvider(this).get(InventoryViewModel.class);
+        modelPokemon = new ViewModelProvider(this).get(PokemonViewModel.class);
+        modelInventory.getInventory().observe(this, inv -> {
+            if (inv != null) {
+                setupView(inv);
             }
         });
+        adapter = new PokemonAdapter(new ArrayList<Pokemon>(), this);
+        RecyclerView recyclerView = findViewById(R.id.inventoryRecycler);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(this.adapter);
+    }
 
-        List<Pokemon> pokemons = new ArrayList<>();
-        adapter = new PokemonAdapter(pokemons, this);
+    private void setupView(Inventory inventory) {
+        this.inventory = inventory;
+        LiveData<InventoryWithPokemons> pokis = modelInventory.getAllPokemon(inventory);
+        pokis.observe(this, inventoryWithPokis -> {
+            if (inventoryWithPokis != null) {
+                setupInventoryWithPokemons(inventoryWithPokis);
+            }
+        });
+    }
+
+    private void setupInventoryWithPokemons(InventoryWithPokemons inv) {
+        inventoryWithPokemons = inv;
+        adapter.updateAdapter(inventoryWithPokemons.pokemons);
+        adapter.notifyDataSetChanged();
+        Log.d(TAG, "setupInventoryWithPokemons: Adapter setup");
     }
 
     @Override
@@ -63,8 +81,7 @@ public class InventoryActivity extends AppCompatActivity implements PokemonAdapt
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        switch(item.getItemId())
-        {
+        switch (item.getItemId()) {
             case R.id.menu_pokedex:
                 Intent home = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(home);
@@ -85,6 +102,8 @@ public class InventoryActivity extends AppCompatActivity implements PokemonAdapt
 
     @Override
     public void onPokemonClick(int position) {
-
+        Intent intent = new Intent(this, EditPokemonActivity.class);
+        intent.putExtra("pokemon_position", adapter.getPokemonId(position));
+        startActivityForResult(intent, 0);
     }
 }

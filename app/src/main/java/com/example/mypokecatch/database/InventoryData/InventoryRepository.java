@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import androidx.lifecycle.LiveData;
 
 import com.example.mypokecatch.database.InventoryPokemonData.InventoryPokemonCrossRef;
+import com.example.mypokecatch.database.InventoryPokemonData.InventoryWithPokemons;
 import com.example.mypokecatch.database.PokemonData.Pokemon;
 import com.example.mypokecatch.database.PokemonDatabase;
 
@@ -69,10 +70,13 @@ public class InventoryRepository {
         return inventory;
     }
 
+    public LiveData<InventoryWithPokemons> getInventoryWithPokemons(int inventoryId) {
+        return InventoryDao.getInventoryWithPokemons(inventoryId);
+    }
+
     public void deletePokemon(InventoryPokemonCrossRef inventoryPokemonCrossRef) {
         new InventoryRepository.DeletePokemonAsyncTask(InventoryDao).execute(inventoryPokemonCrossRef);
     }
-
 
     private static class InsertInventoryAsyncTask extends AsyncTask<Inventory, Void, Void> {
         private InventoryDao InventoryDao;

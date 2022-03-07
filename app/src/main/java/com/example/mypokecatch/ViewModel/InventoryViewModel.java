@@ -10,6 +10,7 @@ import androidx.lifecycle.LiveData;
 import com.example.mypokecatch.database.InventoryData.Inventory;
 import com.example.mypokecatch.database.InventoryData.InventoryRepository;
 import com.example.mypokecatch.database.InventoryPokemonData.InventoryPokemonCrossRef;
+import com.example.mypokecatch.database.InventoryPokemonData.InventoryWithPokemons;
 import com.example.mypokecatch.database.PokemonData.Pokemon;
 
 public class InventoryViewModel extends AndroidViewModel {
@@ -50,7 +51,6 @@ public class InventoryViewModel extends AndroidViewModel {
         );
     }
 
-    // TODO
     public void deletePokemon(Pokemon pokemon, Inventory inventory) {
         repository.deletePokemon(
                 new InventoryPokemonCrossRef(
@@ -59,10 +59,14 @@ public class InventoryViewModel extends AndroidViewModel {
         );
     }
 
+    public LiveData<InventoryWithPokemons> getAllPokemon(Inventory inventory) {
+        return repository.getInventoryWithPokemons(inventory.getInventoryId());
+    }
+
     public boolean isEmpty() { return repository.isInventoryTableEmpty(); }
 
     public LiveData<Inventory> getInventory() {
-        if (this.inventory == null) return null;
+        if (this.inventory == null) return repository.getInventory();
         return this.inventory;
     }
 

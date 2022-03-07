@@ -40,8 +40,8 @@ public interface InventoryDao {
     Integer getInventoryTableSize();
 
     @Transaction
-    @Query("SELECT * FROM inventory_table")
-    List<InventoryWithPokemons> getInventoryWithPokemons();
+    @Query("SELECT * FROM inventory_table WHERE inventoryId = :inventoryId LIMIT 1")
+    LiveData<InventoryWithPokemons> getInventoryWithPokemons(int inventoryId);
 
     @Delete
     void deletePokemon(InventoryPokemonCrossRef crossref);
