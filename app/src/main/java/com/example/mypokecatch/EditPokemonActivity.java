@@ -15,7 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.mypokecatch.database.Pokemon;
+import com.example.mypokecatch.database.PokemonData.Pokemon;
 import com.example.mypokecatch.ViewModel.PokemonViewModel;
 
 import java.util.ArrayList;
@@ -63,7 +63,7 @@ public class EditPokemonActivity extends AppCompatActivity {
 
     private void setupPokemon(int pid) {
         for (Pokemon p : ps) {
-            if (p.getId() == pid){
+            if (p.getPokemonId() == pid){
                 this.pokemon = p;
                 updateInterface();
                 break;
@@ -81,7 +81,7 @@ public class EditPokemonActivity extends AppCompatActivity {
         if (pokemon != null){
             name = pokemon.getName();
             Glide.with(this).
-                    load("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/"+ pokemon.getId() +".png")
+                    load("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/"+ pokemon.getPokemonId() +".png")
                     .into(imageView);
         } else {
             name = "default";

@@ -16,7 +16,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -27,7 +26,7 @@ import com.example.mypokecatch.PokemonOverviewFragment;
 import com.example.mypokecatch.R;
 import com.example.mypokecatch.ViewModel.PokemonViewModel;
 import com.example.mypokecatch.database.DataService;
-import com.example.mypokecatch.database.Pokemon;
+import com.example.mypokecatch.database.PokemonData.Pokemon;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,11 +51,11 @@ public class MainActivity extends AppCompatActivity implements PokemonAdapter.On
         PokemonOverviewFragment frag = new PokemonOverviewFragment(adapter);
         transaction.add(R.id.overviewContainer, frag);
         transaction.commit();
-        Button rBtn = findViewById(R.id.refreshBtn);
-        rBtn.setOnClickListener(view -> {
-            Log.d("btn", "" + model.getVMCount());
-            RefreshData();
-        });
+//        Button rBtn = findViewById(R.id.refreshBtn);
+//        rBtn.setOnClickListener(view -> {
+//            Log.d("btn", "" + model.getVMCount());
+//            RefreshData();
+//        });
 
         startDataService();
 
@@ -161,6 +160,8 @@ public class MainActivity extends AppCompatActivity implements PokemonAdapter.On
                 Toast.makeText(this, "PokeCatch", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.menu_inventory:
+                Intent inventory = new Intent(this, InventoryActivity.class);
+                startActivity(inventory);
                 Toast.makeText(this, "Your pokemons", Toast.LENGTH_SHORT).show();
                 return true;
             default:

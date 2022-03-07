@@ -3,22 +3,16 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/Intis/Avans/MBDA/MyPokeCatch/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.247" />
-        <entry key="..\:/Users/Intis/Avans/MBDA/MyPokeCatch/app/src/main/res/drawable/ic_launcher_background.xml" value="0.247" />
-        <entry key="..\:/Users/Intis/Avans/MBDA/MyPokeCatch/app/src/main/res/layout-land/activity_main.xml" value="0.2222222222222222" />
-        <entry key="..\:/Users/Intis/Avans/MBDA/MyPokeCatch/app/src/main/res/layout/activity_edit_pokemon.xml" value="0.3411458333333333" />
-        <entry key="..\:/Users/Intis/Avans/MBDA/MyPokeCatch/app/src/main/res/layout/activity_main.xml" value="0.1" />
-        <entry key="..\:/Users/Intis/Avans/MBDA/MyPokeCatch/app/src/main/res/layout/activity_poke_catch.xml" value="0.33" />
-        <entry key="..\:/Users/Intis/Avans/MBDA/MyPokeCatch/app/src/main/res/layout/activity_settings.xml" value="0.3380208333333333" />
-        <entry key="..\:/Users/Intis/Avans/MBDA/MyPokeCatch/app/src/main/res/layout/fragment_pokemon_overview.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Intis/Avans/MBDA/MyPokeCatch/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/Users/Intis/Avans/MBDA/MyPokeCatch/app/src/main/res/layout/pokemon_item.xml" value="0.358695652173913" />
         <entry key="..\:/Users/qmb/Documents/Repos/MyPokeCatch/app/src/main/res/layout/activity_edit_pokemon.xml" value="0.264" />
+        <entry key="..\:/Users/qmb/Documents/Repos/MyPokeCatch/app/src/main/res/layout/activity_inventory.xml" value="0.264" />
         <entry key="..\:/Users/qmb/Documents/Repos/MyPokeCatch/app/src/main/res/layout/activity_main.xml" value="0.264" />
+        <entry key="..\:/Users/qmb/Documents/Repos/MyPokeCatch/app/src/main/res/layout/activity_poke_catch.xml" value="0.264" />
+        <entry key="..\:/Users/qmb/Documents/Repos/MyPokeCatch/app/src/main/res/layout/activity_settings.xml" value="0.264" />
         <entry key="..\:/Users/qmb/Documents/Repos/MyPokeCatch/app/src/main/res/layout/fragment_pokemon_overview.xml" value="0.264" />
         <entry key="..\:/Users/qmb/Documents/Repos/MyPokeCatch/app/src/main/res/layout/pokemon_item.xml" value="0.6" />
-        <entry key="..\:/Users/Intis/Avans/MBDA/MyPokeCatch/app/src/main/res/menu/bottom_nav.xml" value="0.2911458333333333" />
-        <entry key="..\:/Users/Intis/Avans/MBDA/MyPokeCatch/app/src/main/res/menu/menu.xml" value="0.2755208333333333" />
-        <entry key="..\:/Users/Intis/Avans/MBDA/MyPokeCatch/app/src/main/res/xml/settings_main.xml" value="0.1" />
+        <entry key="..\:/Users/qmb/Documents/Repos/MyPokeCatch/app/src/main/res/menu/menu.xml" value="0.2" />
       </map>
     </option>
   </component>

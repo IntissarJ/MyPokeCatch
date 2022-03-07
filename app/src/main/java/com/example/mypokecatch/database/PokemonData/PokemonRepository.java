@@ -1,9 +1,12 @@
-package com.example.mypokecatch.database;
+package com.example.mypokecatch.database.PokemonData;
 
 import android.app.Application;
 import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
+
+import com.example.mypokecatch.database.PokemonData.Pokemon;
+import com.example.mypokecatch.database.PokemonDatabase;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;

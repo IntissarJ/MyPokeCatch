@@ -1,38 +1,57 @@
-package com.example.mypokecatch;
+package com.example.mypokecatch.Activity;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
-
-import com.example.mypokecatch.Activity.MainActivity;
 import com.example.mypokecatch.Adapter.PokemonAdapter;
+import com.example.mypokecatch.PokeCatch;
+import com.example.mypokecatch.R;
+import com.example.mypokecatch.ViewModel.InventoryViewModel;
 import com.example.mypokecatch.ViewModel.PokemonViewModel;
+import com.example.mypokecatch.database.InventoryData.Inventory;
 import com.example.mypokecatch.database.PokemonData.Pokemon;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class PokeCatch extends AppCompatActivity implements PokemonAdapter.OnPokemonListener{
+public class InventoryActivity extends AppCompatActivity implements PokemonAdapter.OnPokemonListener {
 
-    private List<Pokemon> pokemons;
+    private static final String TAG = "INVENTORY_ACTIVITY";
     private PokemonAdapter adapter;
+    private InventoryViewModel model;
+    private Inventory inventory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_poke_catch);
-        PokemonViewModel model = new ViewModelProvider(this).get(PokemonViewModel.class);
-        model.getAllPokemons().observe(this, pokemons -> {
-            // update UI
-            this.pokemons = pokemons;
-            adapter = new PokemonAdapter(pokemons, this);
+        setContentView(R.layout.activity_inventory);
+        model = new ViewModelProvider(this).get(InventoryViewModel.class);
+
+        model.getInventory().observe(this, new Observer<Inventory>() {
+            @Override
+            public void onChanged(Inventory inv) {
+                if (inv != null){
+                    inventory = inv;
+                    Log.d(TAG, "onChanged: " + inventory.getInventoryId());
+                } else {
+                    inventory = new Inventory();
+                    model.insert(inventory);
+                }
+            }
         });
+
+        List<Pokemon> pokemons = new ArrayList<>();
+        adapter = new PokemonAdapter(pokemons, this);
     }
 
     @Override
@@ -63,7 +82,6 @@ public class PokeCatch extends AppCompatActivity implements PokemonAdapter.OnPok
                 return super.onOptionsItemSelected(item);
         }
     }
-
 
     @Override
     public void onPokemonClick(int position) {

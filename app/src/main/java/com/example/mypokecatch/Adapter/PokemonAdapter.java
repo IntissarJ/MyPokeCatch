@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.mypokecatch.database.Pokemon;
+import com.example.mypokecatch.database.PokemonData.Pokemon;
 import com.example.mypokecatch.R;
 import com.example.mypokecatch.ViewModel.PokemonViewHolder;
 
@@ -31,7 +31,7 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonViewHolder> impl
     }
 
     public int getPokemonId(int position){
-        return pokemons.get(position).getId();
+        return pokemons.get(position).getPokemonId();
     }
 
     public void updateAdapter(List<Pokemon> pokemons) {
@@ -57,7 +57,7 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonViewHolder> impl
         // set pokemon image
         Glide.with(holder.itemView.getContext()).
                 load("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/"+
-                        pokemon.getId() +".png")
+                        pokemon.getPokemonId() +".png")
                 .into(holder.getImageView());
         //set pokemon name
         holder.getTextView().setText(pokemon.getName());

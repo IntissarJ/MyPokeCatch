@@ -1,4 +1,4 @@
-package com.example.mypokecatch.database;
+package com.example.mypokecatch.database.PokemonData;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
@@ -24,7 +24,7 @@ public interface PokemonDao {
     @Query("DELETE FROM pokemon_table")
     void deleteAllPokemons();
 
-    @Query("SELECT * FROM pokemon_table ORDER BY id desc")
+    @Query("SELECT * FROM pokemon_table ORDER BY pokemonId desc")
     LiveData<List<Pokemon>> getAllPokemons();
 
     @Query("SELECT COUNT(*) FROM pokemon_table")

@@ -12,7 +12,8 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.mypokecatch.database.PokemonRepository;
+import com.example.mypokecatch.database.PokemonData.Pokemon;
+import com.example.mypokecatch.database.PokemonData.PokemonRepository;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -87,7 +88,7 @@ public class DataService extends Service {
                             JSONObject result = results.getJSONObject(i);
                             String name = result.getString("name");
 
-                            repo.insert(new com.example.mypokecatch.database.Pokemon(
+                            repo.insert(new Pokemon(
                                     name.substring(0, 1).toUpperCase() + name.substring(1),
                                     result.getString("url")
                             ));

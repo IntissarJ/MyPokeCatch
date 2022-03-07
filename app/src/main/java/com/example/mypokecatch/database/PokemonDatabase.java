@@ -9,11 +9,19 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-@Database(entities = {Pokemon.class}, version = 2)
+import com.example.mypokecatch.database.InventoryData.Inventory;
+import com.example.mypokecatch.database.InventoryData.InventoryDao;
+import com.example.mypokecatch.database.InventoryPokemonData.InventoryPokemonCrossRef;
+import com.example.mypokecatch.database.PokemonData.Pokemon;
+import com.example.mypokecatch.database.PokemonData.PokemonDao;
+
+@Database(entities = {Pokemon.class, Inventory.class, InventoryPokemonCrossRef.class},
+        version = 7, exportSchema = false)
 public abstract class PokemonDatabase extends RoomDatabase {
 
     private static PokemonDatabase instance;
     public abstract PokemonDao pokemonDao();
+    public abstract InventoryDao inventoryDao();
 
     public static synchronized PokemonDatabase getInstance(Context context) {
         if (instance == null) {
@@ -30,24 +38,30 @@ public abstract class PokemonDatabase extends RoomDatabase {
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
             super.onCreate(db);
+            new PopulateDbAsyncTask(instance).execute();
         }
     };
 
-    // TODO Maak service
     private static class PopulateDbAsyncTask extends AsyncTask<Void, Void, Void> {
-        private PokemonDao PokemonDao;
+        private InventoryDao inventoryDao;
+        private PokemonDao pokemonDao;
 
         private PopulateDbAsyncTask(PokemonDatabase db) {
-            PokemonDao = db.pokemonDao();
+            inventoryDao = db.inventoryDao();
+            pokemonDao = db.pokemonDao();
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
-
+            Pokemon p = new Pokemon("Kingler", "");
+            Inventory inv = new Inventory();
+            inventoryDao.insert(inv);
+            pokemonDao.insert(p);
+            InventoryPokemonCrossRef crossref = new InventoryPokemonCrossRef(1, 1);
+            inventoryDao.insertInventoryWithPokemons(crossref);
             return null;
         }
     }
-    
 
 
 }

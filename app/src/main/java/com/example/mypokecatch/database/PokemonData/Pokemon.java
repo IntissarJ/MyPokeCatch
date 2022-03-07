@@ -1,4 +1,4 @@
-package com.example.mypokecatch.database;
+package com.example.mypokecatch.database.PokemonData;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey;
 public class Pokemon {
 
     @PrimaryKey(autoGenerate = true)
-    private int id;
+    private int pokemonId;
 
     private String name;
     private String url;
@@ -17,12 +17,12 @@ public class Pokemon {
         this.url = url;
     }
 
-    public int getId() {
-        return id;
+    public int getPokemonId() {
+        return pokemonId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setPokemonId(int pokemonId) {
+        this.pokemonId = pokemonId;
     }
 
     public String getName() {

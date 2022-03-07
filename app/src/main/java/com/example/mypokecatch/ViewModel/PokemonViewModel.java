@@ -7,8 +7,8 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import com.example.mypokecatch.database.Pokemon;
-import com.example.mypokecatch.database.PokemonRepository;
+import com.example.mypokecatch.database.PokemonData.Pokemon;
+import com.example.mypokecatch.database.PokemonData.PokemonRepository;
 
 import java.util.List;
 
@@ -30,15 +30,15 @@ public class PokemonViewModel extends AndroidViewModel {
         return true;
     }
 
-    public void insert(com.example.mypokecatch.database.Pokemon pokemon) {
+    public void insert(Pokemon pokemon) {
         repository.insert(pokemon);
     }
 
-    public void update(com.example.mypokecatch.database.Pokemon pokemon) {
+    public void update(Pokemon pokemon) {
         repository.update(pokemon);
     }
 
-    public void delete(com.example.mypokecatch.database.Pokemon pokemon) {
+    public void delete(Pokemon pokemon) {
         repository.delete(pokemon);
     }
 
