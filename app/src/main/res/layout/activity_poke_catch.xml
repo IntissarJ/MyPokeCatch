@@ -24,7 +24,7 @@
         android:layout_width="194dp"
         android:layout_height="41dp"
         android:fontFamily="monospace"
-        android:text="pokemon name"
+        android:text="customPokemon name"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/pokecatch_button"
         app:layout_constraintEnd_toEndOf="parent"

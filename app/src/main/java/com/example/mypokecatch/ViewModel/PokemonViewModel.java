@@ -1,14 +1,14 @@
 package com.example.mypokecatch.ViewModel;
 
 import android.app.Application;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import com.example.mypokecatch.database.Pokemon;
-import com.example.mypokecatch.database.PokemonRepository;
+import com.example.mypokecatch.database.CustomPokemonData.CustomPokemon;
+import com.example.mypokecatch.database.PokemonData.Pokemon;
+import com.example.mypokecatch.database.PokemonData.PokemonRepository;
 
 import java.util.List;
 
@@ -25,20 +25,27 @@ public class PokemonViewModel extends AndroidViewModel {
     }
 
     public boolean updateVM(){
-        Log.d(TAG, "updateVM: count is: " + getVMCount());
         this.pokemons = repository.getAllPokemons();
         return true;
     }
 
-    public void insert(com.example.mypokecatch.database.Pokemon pokemon) {
+    public LiveData<Pokemon> getPokemon(int id) {
+        return repository.getPokemon(id);
+    }
+
+    public LiveData<Pokemon> getPokemon() {
+        return repository.getAPokemon();
+    }
+
+    public void insert(Pokemon pokemon) {
         repository.insert(pokemon);
     }
 
-    public void update(com.example.mypokecatch.database.Pokemon pokemon) {
+    public void update(Pokemon pokemon) {
         repository.update(pokemon);
     }
 
-    public void delete(com.example.mypokecatch.database.Pokemon pokemon) {
+    public void delete(Pokemon pokemon) {
         repository.delete(pokemon);
     }
 
@@ -49,7 +56,7 @@ public class PokemonViewModel extends AndroidViewModel {
     public boolean isEmpty() { return repository.isPokemonTableEmpty(); }
 
     public LiveData<List<Pokemon>> getAllPokemons() {
-        if (this.pokemons == null) return null;
+        if (this.pokemons == null) updateVM();
         return pokemons;
     }
 

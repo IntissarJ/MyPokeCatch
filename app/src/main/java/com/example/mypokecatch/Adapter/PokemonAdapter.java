@@ -3,40 +3,24 @@ package com.example.mypokecatch.Adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Filter;
 import android.widget.Filterable;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.mypokecatch.database.Pokemon;
 import com.example.mypokecatch.R;
+import com.example.mypokecatch.database.CustomPokemonData.CustomPokemon;
 import com.example.mypokecatch.ViewModel.PokemonViewHolder;
+import com.example.mypokecatch.database.iPokemon;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class PokemonAdapter extends RecyclerView.Adapter<PokemonViewHolder> implements Filterable
-{
-    private List<Pokemon> pokemons;
-    private List<Pokemon> pokemonsFiltered;
-    private OnPokemonListener onPokemonListener;
+public class PokemonAdapter extends PokeDexAdapter implements Filterable {
+    private final OnPokemonListener onPokemonListener;
 
-    public PokemonAdapter(List<Pokemon> pokemons, OnPokemonListener listener)
-    {
-        this.pokemons = pokemons;
-        this.pokemonsFiltered = pokemons;
+    public PokemonAdapter(List<iPokemon> customPokemons, OnPokemonListener listener) {
+        super(customPokemons);
         this.onPokemonListener = listener;
-    }
-
-    public int getPokemonId(int position){
-        return pokemons.get(position).getId();
-    }
-
-    public void updateAdapter(List<Pokemon> pokemons) {
-        this.pokemons = pokemons;
-        this.pokemonsFiltered = pokemons;
     }
 
     @NonNull
@@ -52,55 +36,21 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonViewHolder> impl
         holder.getEditBtn().setOnClickListener(view ->
                 onPokemonListener.onPokemonClick(holder.getBindingAdapterPosition()));
 
-        Pokemon pokemon = pokemonsFiltered.get(position);
+        iPokemon customPokemon = getPokemonsFiltered().get(position);
 
         // set pokemon image
         Glide.with(holder.itemView.getContext()).
-                load("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/"+
-                        pokemon.getId() +".png")
+                load("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" +
+                        customPokemon.getPokemonId() + ".png")
                 .into(holder.getImageView());
         //set pokemon name
-        holder.getTextView().setText(pokemon.getName());
-    }
-
-    @Override
-    public Filter getFilter() {
-        return new Filter() {
-            @Override
-            protected FilterResults performFiltering(CharSequence charSequence) {
-                String charString = charSequence.toString();
-                if (charString.isEmpty()) {
-                    pokemonsFiltered = pokemons;
-                } else {
-                    List<Pokemon> filteredList = new ArrayList<>();
-                    for (Pokemon row : pokemons) {
-                        // name match condition
-                        // here we are looking for name match
-                        if (row.getName().toLowerCase().contains(charString.toLowerCase())) {
-                            filteredList.add(row);
-                        }
-                    }
-                    pokemonsFiltered = filteredList;
-                }
-                FilterResults filterResults = new FilterResults();
-                filterResults.values = pokemonsFiltered;
-                return filterResults;
-            }
-
-            @Override
-            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-                pokemonsFiltered = (ArrayList<Pokemon>) filterResults.values;
-                notifyDataSetChanged();
-            }
-        };
+        holder.getTextView().setText(customPokemon.getName());
     }
 
     public interface OnPokemonListener {
         void onPokemonClick(int position);
     }
 
-    @Override
-    public int getItemCount() {
-        return pokemonsFiltered.size();
-    }
+
+
 }
