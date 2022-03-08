@@ -5,38 +5,46 @@ import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
 
-import com.example.mypokecatch.database.PokemonData.Pokemon;
+import com.example.mypokecatch.database.CustomPokemonData.CustomPokemon;
 import com.example.mypokecatch.database.PokemonDatabase;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class PokemonRepository {
-    private PokemonDao PokemonDao;
+    private PokemonDao pokemonDao;
     private LiveData<List<Pokemon>> allPokemons;
 
     public PokemonRepository(Application application) {
         PokemonDatabase database = PokemonDatabase.getInstance(application);
-        PokemonDao = database.pokemonDao();
-        allPokemons = PokemonDao.getAllPokemons();
+        pokemonDao = database.pokemonDao();
+        allPokemons = pokemonDao.getAllPokemons();
     }
 
-    public void insert(Pokemon Pokemon) {
-        new InsertPokemonAsyncTask(PokemonDao).execute(Pokemon);
+    public LiveData<Pokemon> getPokemon(int id) {
+        return pokemonDao.getPokemon(id);
     }
 
-    public void update(Pokemon Pokemon) {
-        new UpdatePokemonAsyncTask(PokemonDao).execute(Pokemon);
+    public LiveData<Pokemon> getAPokemon() {
+        return pokemonDao.getAPokemon();
     }
 
-    public void delete(Pokemon Pokemon) {
-        new DeletePokemonAsyncTask(PokemonDao).execute(Pokemon);
+    public void insert(Pokemon pokemon) {
+        new InsertPokemonAsyncTask(pokemonDao).execute(pokemon);
+    }
+
+    public void update(Pokemon pokemon) {
+        new UpdatePokemonAsyncTask(pokemonDao).execute(pokemon);
+    }
+
+    public void delete(Pokemon pokemon) {
+        new DeletePokemonAsyncTask(pokemonDao).execute(pokemon);
     }
 
     public boolean isPokemonTableEmpty() {
         Integer integer = null;
         try {
-            integer = new IsPokemonTableEmptyAsyncTask(PokemonDao).execute().get();
+            integer = new IsPokemonTableEmptyAsyncTask(pokemonDao).execute().get();
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -48,7 +56,7 @@ public class PokemonRepository {
     public Integer pokeTableCount() {
         Integer integer = null;
         try {
-            integer = new IsPokemonTableEmptyAsyncTask(PokemonDao).execute().get();
+            integer = new IsPokemonTableEmptyAsyncTask(pokemonDao).execute().get();
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -58,109 +66,109 @@ public class PokemonRepository {
     }
 
     public void deleteAllPokemons() {
-        new DeleteAllPokemonsAsyncTask(PokemonDao).execute();
+        new DeleteAllPokemonsAsyncTask(pokemonDao).execute();
     }
 
     public LiveData<List<Pokemon>> getAllPokemons() {
         if (allPokemons == null){
-            allPokemons = PokemonDao.getAllPokemons();
+            allPokemons = pokemonDao.getAllPokemons();
         }
         return allPokemons;
     }
 
     private static class InsertPokemonAsyncTask extends AsyncTask<Pokemon, Void, Void> {
-        private PokemonDao PokemonDao;
+        private PokemonDao pokemonDao;
 
-        private InsertPokemonAsyncTask(PokemonDao PokemonDao) {
-            this.PokemonDao = PokemonDao;
+        private InsertPokemonAsyncTask(PokemonDao pokemonDao) {
+            this.pokemonDao = pokemonDao;
         }
 
         @Override
-        protected Void doInBackground(Pokemon... Pokemons) {
-            PokemonDao.insert(Pokemons[0]);
+        protected Void doInBackground(Pokemon... pokemons) {
+            pokemonDao.insert(pokemons[0]);
             return null;
         }
     }
 
     private static class UpdatePokemonAsyncTask extends AsyncTask<Pokemon, Void, Void> {
-        private PokemonDao PokemonDao;
+        private PokemonDao pokemonDao;
 
-        private UpdatePokemonAsyncTask(PokemonDao PokemonDao) {
-            this.PokemonDao = PokemonDao;
+        private UpdatePokemonAsyncTask(PokemonDao pokemonDao) {
+            this.pokemonDao = pokemonDao;
         }
 
         @Override
-        protected Void doInBackground(Pokemon... Pokemons) {
-            PokemonDao.update(Pokemons[0]);
+        protected Void doInBackground(Pokemon... pokemons) {
+            pokemonDao.update(pokemons[0]);
             return null;
         }
     }
 
     private static class DeletePokemonAsyncTask extends AsyncTask<Pokemon, Void, Void> {
-        private PokemonDao PokemonDao;
+        private PokemonDao pokemonDao;
 
-        private DeletePokemonAsyncTask(PokemonDao PokemonDao) {
-            this.PokemonDao = PokemonDao;
+        private DeletePokemonAsyncTask(PokemonDao pokemonDao) {
+            this.pokemonDao = pokemonDao;
         }
 
         @Override
-        protected Void doInBackground(Pokemon... Pokemons) {
-            PokemonDao.delete(Pokemons[0]);
+        protected Void doInBackground(Pokemon... pokemons) {
+            pokemonDao.delete(pokemons[0]);
             return null;
         }
     }
 
     private static class DeleteAllPokemonsAsyncTask extends AsyncTask<Void, Void, Void> {
-        private PokemonDao PokemonDao;
+        private PokemonDao pokemonDao;
 
-        private DeleteAllPokemonsAsyncTask(PokemonDao PokemonDao) {
-            this.PokemonDao = PokemonDao;
+        private DeleteAllPokemonsAsyncTask(PokemonDao pokemonDao) {
+            this.pokemonDao = pokemonDao;
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
-            PokemonDao.deleteAllPokemons();
+            pokemonDao.deleteAllPokemons();
             return null;
         }
     }
 
     private static class IsPokemonTableEmptyAsyncTask extends AsyncTask<Void, Void, Integer> {
-        private PokemonDao PokemonDao;
+        private PokemonDao pokemonDao;
 
-        private IsPokemonTableEmptyAsyncTask(PokemonDao PokemonDao) {
-            this.PokemonDao = PokemonDao;
+        private IsPokemonTableEmptyAsyncTask(PokemonDao pokemonDao) {
+            this.pokemonDao = pokemonDao;
         }
 
         @Override
         protected Integer doInBackground(Void... voids) {
-            return PokemonDao.getPokeTableSize();
+            return pokemonDao.getPokeTableSize();
         }
     }
 
     private static class GetAllPokemonsAsyncTask extends AsyncTask<Void, Void, Void> {
-        private PokemonDao PokemonDao;
+        private PokemonDao pokemonDao;
 
-        private GetAllPokemonsAsyncTask(PokemonDao PokemonDao) {
-            this.PokemonDao = PokemonDao;
+        private GetAllPokemonsAsyncTask(PokemonDao pokemonDao) {
+            this.pokemonDao = pokemonDao;
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
-            PokemonDao.deleteAllPokemons();
+            pokemonDao.deleteAllPokemons();
             return null;
         }
     }
 
     private static class GetAPokemonAsyncTask extends AsyncTask<Void, Void, Void> {
-        private PokemonDao PokemonDao;
+        private PokemonDao pokemonDao;
 
-        private GetAPokemonAsyncTask(PokemonDao PokemonDao) {
-            this.PokemonDao = PokemonDao;
+        private GetAPokemonAsyncTask(PokemonDao pokemonDao) {
+            this.pokemonDao = pokemonDao;
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
-            PokemonDao.deleteAllPokemons();
+            pokemonDao.deleteAllPokemons();
             return null;
         }
     }

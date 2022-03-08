@@ -8,11 +8,8 @@ import androidx.room.Query;
 import androidx.room.Transaction;
 import androidx.room.Update;
 
-import com.example.mypokecatch.database.InventoryPokemonData.InventoryPokemonCrossRef;
-import com.example.mypokecatch.database.InventoryPokemonData.InventoryWithPokemons;
-import com.example.mypokecatch.database.PokemonData.Pokemon;
-
-import java.util.List;
+import com.example.mypokecatch.database.InventoryPokemonData.InventoryCustomPokemonCrossRef;
+import com.example.mypokecatch.database.InventoryPokemonData.InventoryWithCustomPokemons;
 
 @Dao
 public interface InventoryDao {
@@ -26,27 +23,20 @@ public interface InventoryDao {
     @Delete
     void delete(Inventory inventory);
 
-
-//    @Query("DELETE * FROM inventory_table")
-//    void deleteAllInventorys();
-
     @Query("Select * FROM inventory_table LIMIT 1")
     LiveData<Inventory> getInventory();
-
-//    @Query("SELECT * FROM inventory_table ORDER BY inventoryId")
-//    LiveData<List<Pokemon>> getAllPokemonsFromInventory();
 
     @Query("SELECT COUNT(*) FROM inventory_table")
     Integer getInventoryTableSize();
 
     @Transaction
     @Query("SELECT * FROM inventory_table WHERE inventoryId = :inventoryId LIMIT 1")
-    LiveData<InventoryWithPokemons> getInventoryWithPokemons(int inventoryId);
+    LiveData<InventoryWithCustomPokemons> getInventoryWithPokemons(int inventoryId);
 
     @Delete
-    void deletePokemon(InventoryPokemonCrossRef crossref);
+    void deletePokemon(InventoryCustomPokemonCrossRef crossref);
 
     @Insert
-    void insertInventoryWithPokemons(InventoryPokemonCrossRef inventoryWithPokemons);
+    void insertInventoryWithPokemons(InventoryCustomPokemonCrossRef inventoryWithPokemons);
 }
 

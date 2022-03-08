@@ -2,14 +2,11 @@ package com.example.mypokecatch.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -18,19 +15,16 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
 import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.example.mypokecatch.Adapter.PokeDexAdapter;
-import com.example.mypokecatch.Adapter.PokemonAdapter;
-import com.example.mypokecatch.EditPokemonActivity;
 import com.example.mypokecatch.PokeCatch;
-import com.example.mypokecatch.PokemonOverviewFragment;
 import com.example.mypokecatch.R;
 import com.example.mypokecatch.ViewModel.PokemonViewModel;
+import com.example.mypokecatch.database.CustomPokemonData.CustomPokemon;
 import com.example.mypokecatch.database.DataService;
-import com.example.mypokecatch.database.PokemonData.Pokemon;
+import com.example.mypokecatch.database.iPokemon;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,21 +39,22 @@ public class MainActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        startDataService();
+
         model = new ViewModelProvider(this).get(PokemonViewModel.class);
         LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
                 new IntentFilter("custom-event-name"));
 
-        List<Pokemon> pokemons = new ArrayList<>();
         //        pokedexRecycler
         adapter = new PokeDexAdapter(new ArrayList<>());
         RecyclerView recyclerView = findViewById(R.id.pokedexRecycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(this.adapter);
-        startDataService();
 
         model.getAllPokemons().observe(this , pokis -> {
             if (pokis != null) {
-                adapter.updateAdapter(pokis);
+                adapter.updateAdapter((List<iPokemon>) (Object) pokis);
                 adapter.notifyDataSetChanged();
             }
         });
@@ -67,15 +62,6 @@ public class MainActivity extends AppCompatActivity{
 
     private void RefreshData() {
         model.updateVM();
-//        if (model.getVMCount() > 0) {
-//            model.getAllPokemons().observe(this, new Observer<List<Pokemon>>() {
-//                @Override
-//                public void onChanged(List<Pokemon> pokemons) {
-//                    adapter.updateAdapter(pokemons);
-//                    adapter.notifyDataSetChanged();
-//                }
-//            });
-//        }
     }
 
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {

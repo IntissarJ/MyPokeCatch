@@ -1,12 +1,12 @@
-package com.example.mypokecatch.database.PokemonData;
+package com.example.mypokecatch.database.CustomPokemonData;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import com.example.mypokecatch.database.iPokemon;
 
-@Entity(tableName = "pokemon_table")
-public class Pokemon implements iPokemon {
+@Entity(tableName = "customPokemon_table")
+public class CustomPokemon implements iPokemon {
 
     @PrimaryKey(autoGenerate = true)
     private int pokemonId;
@@ -14,7 +14,7 @@ public class Pokemon implements iPokemon {
     private String name;
     private String url;
 
-    public Pokemon(String name, String url) {
+    public CustomPokemon(String name, String url) {
         this.name = name;
         this.url = url;
     }

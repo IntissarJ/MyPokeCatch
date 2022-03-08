@@ -3,7 +3,6 @@ package com.example.mypokecatch.database;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -92,7 +91,6 @@ public class DataService extends Service {
                                     name.substring(0, 1).toUpperCase() + name.substring(1),
                                     result.getString("url")
                             ));
-                            Log.d(TAG, "onInitializePokemons: " + repo.pokeTableCount());
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -103,7 +101,6 @@ public class DataService extends Service {
 
         RequestQueue queue = Volley.newRequestQueue(this.getApplication());
         queue.add(jsonObjectRequest);
-        Log.d("sender", repo.pokeTableCount().toString());
         return true;
     }
 }

@@ -14,13 +14,14 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.mypokecatch.Activity.MainActivity;
 import com.example.mypokecatch.Adapter.PokemonAdapter;
 import com.example.mypokecatch.ViewModel.PokemonViewModel;
-import com.example.mypokecatch.database.PokemonData.Pokemon;
+import com.example.mypokecatch.database.CustomPokemonData.CustomPokemon;
+import com.example.mypokecatch.database.iPokemon;
 
 import java.util.List;
 
 public class PokeCatch extends AppCompatActivity implements PokemonAdapter.OnPokemonListener{
 
-    private List<Pokemon> pokemons;
+    private List<iPokemon> customPokemons;
     private PokemonAdapter adapter;
 
     @Override
@@ -30,8 +31,8 @@ public class PokeCatch extends AppCompatActivity implements PokemonAdapter.OnPok
         PokemonViewModel model = new ViewModelProvider(this).get(PokemonViewModel.class);
         model.getAllPokemons().observe(this, pokemons -> {
             // update UI
-            this.pokemons = pokemons;
-            adapter = new PokemonAdapter(pokemons, this);
+            this.customPokemons = (List<iPokemon>)(Object) pokemons;
+            adapter = new PokemonAdapter(customPokemons, this);
         });
     }
 

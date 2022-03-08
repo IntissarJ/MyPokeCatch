@@ -10,20 +10,21 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.mypokecatch.database.PokemonData.Pokemon;
+import com.example.mypokecatch.database.CustomPokemonData.CustomPokemon;
 import com.example.mypokecatch.R;
 import com.example.mypokecatch.ViewModel.PokemonViewHolder;
+import com.example.mypokecatch.database.PokemonData.Pokemon;
+import com.example.mypokecatch.database.iPokemon;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PokeDexAdapter extends RecyclerView.Adapter<PokemonViewHolder> implements Filterable
 {
-    private List<Pokemon> pokemons;
+    private List<iPokemon> pokemons;
+    private List<iPokemon> pokemonsFiltered;
 
-    private List<Pokemon> pokemonsFiltered;
-
-    public PokeDexAdapter(List<Pokemon> pokemons)
+    public PokeDexAdapter(List<iPokemon> pokemons)
     {
         this.pokemons = pokemons;
         this.pokemonsFiltered = pokemons;
@@ -33,7 +34,7 @@ public class PokeDexAdapter extends RecyclerView.Adapter<PokemonViewHolder> impl
         return pokemons.get(position).getPokemonId();
     }
 
-    public void updateAdapter(List<Pokemon> pokemons) {
+    public void updateAdapter(List<iPokemon> pokemons) {
         this.pokemons = pokemons;
         this.pokemonsFiltered = pokemons;
     }
@@ -48,7 +49,7 @@ public class PokeDexAdapter extends RecyclerView.Adapter<PokemonViewHolder> impl
 
     @Override
     public void onBindViewHolder(@NonNull PokemonViewHolder holder, int position) {
-        Pokemon pokemon = pokemonsFiltered.get(position);
+        iPokemon pokemon = pokemonsFiltered.get(position);
         // set pokemon image
         Glide.with(holder.itemView.getContext()).
                 load("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/"+
@@ -67,8 +68,8 @@ public class PokeDexAdapter extends RecyclerView.Adapter<PokemonViewHolder> impl
                 if (charString.isEmpty()) {
                     pokemonsFiltered = pokemons;
                 } else {
-                    List<Pokemon> filteredList = new ArrayList<>();
-                    for (Pokemon row : pokemons) {
+                    List<iPokemon> filteredList = new ArrayList<>();
+                    for (iPokemon row : pokemons) {
                         // name match condition
                         // here we are looking for name match
                         if (row.getName().toLowerCase().contains(charString.toLowerCase())) {
@@ -84,7 +85,7 @@ public class PokeDexAdapter extends RecyclerView.Adapter<PokemonViewHolder> impl
 
             @Override
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-                pokemonsFiltered = (ArrayList<Pokemon>) filterResults.values;
+                pokemonsFiltered = (ArrayList<iPokemon>) filterResults.values;
                 notifyDataSetChanged();
             }
         };
@@ -95,11 +96,11 @@ public class PokeDexAdapter extends RecyclerView.Adapter<PokemonViewHolder> impl
         return pokemonsFiltered.size();
     }
 
-    public List<Pokemon> getPokemonsFiltered() {
+    public List<iPokemon> getPokemonsFiltered() {
         return pokemonsFiltered;
     }
 
-    public void setPokemonsFiltered(List<Pokemon> pokemonsFiltered) {
+    public void setPokemonsFiltered(List<iPokemon> pokemonsFiltered) {
         this.pokemonsFiltered = pokemonsFiltered;
     }
 }

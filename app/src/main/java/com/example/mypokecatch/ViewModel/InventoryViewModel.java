@@ -9,9 +9,9 @@ import androidx.lifecycle.LiveData;
 
 import com.example.mypokecatch.database.InventoryData.Inventory;
 import com.example.mypokecatch.database.InventoryData.InventoryRepository;
-import com.example.mypokecatch.database.InventoryPokemonData.InventoryPokemonCrossRef;
-import com.example.mypokecatch.database.InventoryPokemonData.InventoryWithPokemons;
-import com.example.mypokecatch.database.PokemonData.Pokemon;
+import com.example.mypokecatch.database.InventoryPokemonData.InventoryCustomPokemonCrossRef;
+import com.example.mypokecatch.database.InventoryPokemonData.InventoryWithCustomPokemons;
+import com.example.mypokecatch.database.CustomPokemonData.CustomPokemon;
 
 public class InventoryViewModel extends AndroidViewModel {
 
@@ -43,31 +43,31 @@ public class InventoryViewModel extends AndroidViewModel {
         repository.delete(inventory);
     }
 
-    public void insertPokemon(Pokemon pokemon, Inventory inventory) {
+    public void insertPokemon(CustomPokemon customPokemon, Inventory inventory) {
         repository.insertPokemon(
-                new InventoryPokemonCrossRef(
-                        pokemon.getPokemonId(), inventory.getInventoryId()
+                new InventoryCustomPokemonCrossRef(
+                        customPokemon.getPokemonId(), inventory.getInventoryId()
                 )
         );
     }
 
     public void insertPokemon(int pokemon_id, int inventory_id) {
         repository.insertPokemon(
-                new InventoryPokemonCrossRef(
+                new InventoryCustomPokemonCrossRef(
                         pokemon_id, inventory_id
                 )
         );
     }
 
-    public void deletePokemon(Pokemon pokemon, Inventory inventory) {
+    public void deletePokemon(CustomPokemon customPokemon, Inventory inventory) {
         repository.deletePokemon(
-                new InventoryPokemonCrossRef(
-                        pokemon.getPokemonId(), inventory.getInventoryId()
+                new InventoryCustomPokemonCrossRef(
+                        customPokemon.getPokemonId(), inventory.getInventoryId()
                 )
         );
     }
 
-    public LiveData<InventoryWithPokemons> getAllPokemon(Inventory inventory) {
+    public LiveData<InventoryWithCustomPokemons> getAllPokemon(Inventory inventory) {
         return repository.getInventoryWithPokemons(inventory.getInventoryId());
     }
 

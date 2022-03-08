@@ -5,9 +5,8 @@ import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
 
-import com.example.mypokecatch.database.InventoryPokemonData.InventoryPokemonCrossRef;
-import com.example.mypokecatch.database.InventoryPokemonData.InventoryWithPokemons;
-import com.example.mypokecatch.database.PokemonData.Pokemon;
+import com.example.mypokecatch.database.InventoryPokemonData.InventoryCustomPokemonCrossRef;
+import com.example.mypokecatch.database.InventoryPokemonData.InventoryWithCustomPokemons;
 import com.example.mypokecatch.database.PokemonDatabase;
 
 import java.util.concurrent.ExecutionException;
@@ -27,7 +26,7 @@ public class InventoryRepository {
         new InventoryRepository.InsertInventoryAsyncTask(InventoryDao).execute(Inventory);
     }
 
-    public void insertPokemon(InventoryPokemonCrossRef crossref){
+    public void insertPokemon(InventoryCustomPokemonCrossRef crossref){
         new InventoryRepository.InsertPokemonAsyncTask(InventoryDao).execute(crossref);
     }
 
@@ -70,11 +69,11 @@ public class InventoryRepository {
         return inventory;
     }
 
-    public LiveData<InventoryWithPokemons> getInventoryWithPokemons(int inventoryId) {
+    public LiveData<InventoryWithCustomPokemons> getInventoryWithPokemons(int inventoryId) {
         return InventoryDao.getInventoryWithPokemons(inventoryId);
     }
 
-    public void deletePokemon(InventoryPokemonCrossRef inventoryPokemonCrossRef) {
+    public void deletePokemon(InventoryCustomPokemonCrossRef inventoryPokemonCrossRef) {
         new InventoryRepository.DeletePokemonAsyncTask(InventoryDao).execute(inventoryPokemonCrossRef);
     }
 
@@ -92,7 +91,7 @@ public class InventoryRepository {
         }
     }
 
-    private static class InsertPokemonAsyncTask extends AsyncTask<InventoryPokemonCrossRef, Void, Void> {
+    private static class InsertPokemonAsyncTask extends AsyncTask<InventoryCustomPokemonCrossRef, Void, Void> {
         private InventoryDao InventoryDao;
 
         private InsertPokemonAsyncTask(InventoryDao InventoryDao) {
@@ -100,7 +99,7 @@ public class InventoryRepository {
         }
 
         @Override
-        protected Void doInBackground(InventoryPokemonCrossRef... crossref) {
+        protected Void doInBackground(InventoryCustomPokemonCrossRef... crossref) {
             InventoryDao.insertInventoryWithPokemons(crossref[0]);
             return null;
         }
@@ -134,15 +133,15 @@ public class InventoryRepository {
         }
     }
 
-    public class DeletePokemonAsyncTask extends AsyncTask<InventoryPokemonCrossRef, Void, Integer>  {
+    public class DeletePokemonAsyncTask extends AsyncTask<InventoryCustomPokemonCrossRef, Void, Integer>  {
         private InventoryDao InventoryDao;
 
-        public DeletePokemonAsyncTask(InventoryDao inventoryDao) {
-            this.InventoryDao = InventoryDao;
+        public DeletePokemonAsyncTask(InventoryDao dao) {
+            InventoryDao = dao;
         }
 
         @Override
-        protected Integer doInBackground(InventoryPokemonCrossRef... crossref) {
+        protected Integer doInBackground(InventoryCustomPokemonCrossRef... crossref) {
             InventoryDao.deletePokemon(crossref[0]);
             return null;
         }

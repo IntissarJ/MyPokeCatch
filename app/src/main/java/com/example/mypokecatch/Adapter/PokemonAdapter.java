@@ -9,15 +9,17 @@ import androidx.annotation.NonNull;
 
 import com.bumptech.glide.Glide;
 import com.example.mypokecatch.R;
-import com.example.mypokecatch.database.PokemonData.Pokemon;
+import com.example.mypokecatch.database.CustomPokemonData.CustomPokemon;
 import com.example.mypokecatch.ViewModel.PokemonViewHolder;
+import com.example.mypokecatch.database.iPokemon;
+
 import java.util.List;
 
 public class PokemonAdapter extends PokeDexAdapter implements Filterable {
     private final OnPokemonListener onPokemonListener;
 
-    public PokemonAdapter(List<Pokemon> pokemons, OnPokemonListener listener) {
-        super(pokemons);
+    public PokemonAdapter(List<iPokemon> customPokemons, OnPokemonListener listener) {
+        super(customPokemons);
         this.onPokemonListener = listener;
     }
 
@@ -34,15 +36,15 @@ public class PokemonAdapter extends PokeDexAdapter implements Filterable {
         holder.getEditBtn().setOnClickListener(view ->
                 onPokemonListener.onPokemonClick(holder.getBindingAdapterPosition()));
 
-        Pokemon pokemon = getPokemonsFiltered().get(position);
+        iPokemon customPokemon = getPokemonsFiltered().get(position);
 
         // set pokemon image
         Glide.with(holder.itemView.getContext()).
                 load("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" +
-                        pokemon.getPokemonId() + ".png")
+                        customPokemon.getPokemonId() + ".png")
                 .into(holder.getImageView());
         //set pokemon name
-        holder.getTextView().setText(pokemon.getName());
+        holder.getTextView().setText(customPokemon.getName());
     }
 
     public interface OnPokemonListener {

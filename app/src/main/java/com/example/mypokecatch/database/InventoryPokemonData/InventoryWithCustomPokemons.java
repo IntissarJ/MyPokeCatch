@@ -5,11 +5,11 @@ import androidx.room.Junction;
 import androidx.room.Relation;
 
 import com.example.mypokecatch.database.InventoryData.Inventory;
-import com.example.mypokecatch.database.PokemonData.Pokemon;
+import com.example.mypokecatch.database.CustomPokemonData.CustomPokemon;
 
 import java.util.List;
 
-public class InventoryWithPokemons {
+public class InventoryWithCustomPokemons {
 
     @Embedded
     public Inventory inventory;
@@ -17,8 +17,8 @@ public class InventoryWithPokemons {
     @Relation(
             parentColumn = "inventoryId",
             entityColumn = "pokemonId",
-            associateBy = @Junction(InventoryPokemonCrossRef.class)
+            associateBy = @Junction(InventoryCustomPokemonCrossRef.class)
     )
-    public List<Pokemon> pokemons;
+    public List<CustomPokemon> customPokemons;
 
 }

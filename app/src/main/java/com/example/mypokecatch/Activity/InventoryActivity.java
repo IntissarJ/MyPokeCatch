@@ -2,8 +2,6 @@ package com.example.mypokecatch.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,18 +12,20 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import com.example.mypokecatch.Adapter.PokemonAdapter;
 import com.example.mypokecatch.EditPokemonActivity;
 import com.example.mypokecatch.PokeCatch;
 import com.example.mypokecatch.R;
+import com.example.mypokecatch.ViewModel.CustomPokemonViewModel;
 import com.example.mypokecatch.ViewModel.InventoryViewModel;
 import com.example.mypokecatch.ViewModel.PokemonViewModel;
+import com.example.mypokecatch.database.CustomPokemonData.CustomPokemon;
 import com.example.mypokecatch.database.InventoryData.Inventory;
-import com.example.mypokecatch.database.InventoryPokemonData.InventoryWithPokemons;
+import com.example.mypokecatch.database.InventoryPokemonData.InventoryWithCustomPokemons;
 import com.example.mypokecatch.database.PokemonData.Pokemon;
+import com.example.mypokecatch.database.iPokemon;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,55 +34,68 @@ public class InventoryActivity extends AppCompatActivity implements PokemonAdapt
 
     private static final String TAG = "INVENTORY_ACTIVITY";
     private PokemonAdapter adapter;
+
     private InventoryViewModel modelInventory;
-    private Inventory inventory;
-    private InventoryWithPokemons inventoryWithPokemons;
+    private CustomPokemonViewModel modelCustomPokemon;
     private PokemonViewModel modelPokemon;
+
+    private Inventory inventory;
+    private InventoryWithCustomPokemons inventoryWithPokemons;
+    private CustomPokemon customPokemon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inventory);
         modelInventory = new ViewModelProvider(this).get(InventoryViewModel.class);
+        modelCustomPokemon = new ViewModelProvider(this).get(CustomPokemonViewModel.class);
         modelPokemon = new ViewModelProvider(this).get(PokemonViewModel.class);
 
-        if ( modelInventory.isEmpty()){
+        if (modelInventory.isEmpty()) {
+            createFirstPokemon();
             createFirstInventory();
+            createInventoryPokemonLink();
         }
 
         modelInventory.getInventory().observe(this, inv -> {
             if (inv != null) {
-                setupView(inv);
+                inventory = inv;
+                setupView();
             }
         });
+
+
         adapter = new PokemonAdapter(new ArrayList<>(), this);
         RecyclerView recyclerView = findViewById(R.id.inventoryRecycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(this.adapter);
     }
 
-    private void createFirstInventory() {
-        Inventory inv = new Inventory();
-        modelInventory.insert(inv);
-        modelInventory.getInventory().observe(this, mInv -> {
-            if (mInv != null) {
-                modelInventory.insertPokemon(1, mInv.getInventoryId());
-            }
-        });
+    private void createInventoryPokemonLink() {
+        modelInventory.insertPokemon(1, 1);
     }
 
-    private void setupView(Inventory inventory) {
-        this.inventory = inventory;
+    private void createFirstPokemon() {
+        customPokemon = new CustomPokemon("Bulbasaur", "https://pokeapi.co/api/v2/pokemon/1/");
+        modelCustomPokemon.insert(customPokemon);
+    }
+
+    private void createFirstInventory() {
+        inventory = new Inventory();
+        modelInventory.insert(inventory);
+    }
+
+    private void setupView() {
         modelInventory.getAllPokemon(inventory).observe(this, inventoryWithPokis -> {
             if (inventoryWithPokis != null) {
-                setupInventoryWithPokemons(inventoryWithPokis);
+                inventoryWithPokemons = inventoryWithPokis;
+                setupInventoryWithPokemons();
             }
         });
     }
 
-    private void setupInventoryWithPokemons(InventoryWithPokemons inv) {
-        inventoryWithPokemons = inv;
-        adapter.updateAdapter(inventoryWithPokemons.pokemons);
+    private void setupInventoryWithPokemons() {
+        adapter.updateAdapter((List<iPokemon>) (Object) inventoryWithPokemons.customPokemons);
         adapter.notifyDataSetChanged();
     }
 
@@ -125,8 +138,8 @@ public class InventoryActivity extends AppCompatActivity implements PokemonAdapt
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
-            Pokemon p = (Pokemon) data.getSerializableExtra("updated_pokemon");
-            modelPokemon.update(p);
+            CustomPokemon p = (CustomPokemon) data.getSerializableExtra("updated_pokemon");
+            modelCustomPokemon.update(p);
         }
     }
 

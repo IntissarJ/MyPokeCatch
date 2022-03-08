@@ -7,6 +7,8 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.example.mypokecatch.database.CustomPokemonData.CustomPokemon;
+
 import java.util.List;
 
 @Dao
@@ -23,6 +25,13 @@ public interface PokemonDao {
 
     @Query("DELETE FROM pokemon_table")
     void deleteAllPokemons();
+
+    @Query("SELECT * FROM pokemon_table WHERE pokemonId = :id")
+    LiveData<Pokemon> getPokemon(int id);
+
+    @Query("SELECT * FROM pokemon_table LIMIT 1")
+    LiveData<Pokemon> getAPokemon();
+
 
     @Query("SELECT * FROM pokemon_table ORDER BY pokemonId desc")
     LiveData<List<Pokemon>> getAllPokemons();
