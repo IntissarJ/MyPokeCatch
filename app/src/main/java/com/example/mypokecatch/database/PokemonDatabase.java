@@ -16,7 +16,7 @@ import com.example.mypokecatch.database.PokemonData.Pokemon;
 import com.example.mypokecatch.database.PokemonData.PokemonDao;
 
 @Database(entities = {Pokemon.class, Inventory.class, InventoryPokemonCrossRef.class},
-        version = 7, exportSchema = false)
+        version = 9, exportSchema = false)
 public abstract class PokemonDatabase extends RoomDatabase {
 
     private static PokemonDatabase instance;

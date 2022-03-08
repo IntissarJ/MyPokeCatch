@@ -51,6 +51,14 @@ public class InventoryViewModel extends AndroidViewModel {
         );
     }
 
+    public void insertPokemon(int pokemon_id, int inventory_id) {
+        repository.insertPokemon(
+                new InventoryPokemonCrossRef(
+                        pokemon_id, inventory_id
+                )
+        );
+    }
+
     public void deletePokemon(Pokemon pokemon, Inventory inventory) {
         repository.deletePokemon(
                 new InventoryPokemonCrossRef(
@@ -66,8 +74,9 @@ public class InventoryViewModel extends AndroidViewModel {
     public boolean isEmpty() { return repository.isInventoryTableEmpty(); }
 
     public LiveData<Inventory> getInventory() {
-        if (this.inventory == null) return repository.getInventory();
+        if (this.inventory == null) updateVM();
         return this.inventory;
+
     }
 
     public Integer getInventoryCount(){

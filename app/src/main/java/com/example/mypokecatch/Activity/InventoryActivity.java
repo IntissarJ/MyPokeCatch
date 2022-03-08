@@ -45,22 +45,35 @@ public class InventoryActivity extends AppCompatActivity implements PokemonAdapt
         setContentView(R.layout.activity_inventory);
         modelInventory = new ViewModelProvider(this).get(InventoryViewModel.class);
         modelPokemon = new ViewModelProvider(this).get(PokemonViewModel.class);
-        adapter = new PokemonAdapter(new ArrayList<>(), this);
-        RecyclerView recyclerView = findViewById(R.id.inventoryRecycler);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(this.adapter);
+
+        if ( modelInventory.isEmpty()){
+            createFirstInventory();
+        }
 
         modelInventory.getInventory().observe(this, inv -> {
             if (inv != null) {
                 setupView(inv);
             }
         });
+        adapter = new PokemonAdapter(new ArrayList<>(), this);
+        RecyclerView recyclerView = findViewById(R.id.inventoryRecycler);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(this.adapter);
+    }
+
+    private void createFirstInventory() {
+        Inventory inv = new Inventory();
+        modelInventory.insert(inv);
+        modelInventory.getInventory().observe(this, mInv -> {
+            if (mInv != null) {
+                modelInventory.insertPokemon(1, mInv.getInventoryId());
+            }
+        });
     }
 
     private void setupView(Inventory inventory) {
         this.inventory = inventory;
-        LiveData<InventoryWithPokemons> pokis = modelInventory.getAllPokemon(inventory);
-        pokis.observe(this, inventoryWithPokis -> {
+        modelInventory.getAllPokemon(inventory).observe(this, inventoryWithPokis -> {
             if (inventoryWithPokis != null) {
                 setupInventoryWithPokemons(inventoryWithPokis);
             }
@@ -71,7 +84,6 @@ public class InventoryActivity extends AppCompatActivity implements PokemonAdapt
         inventoryWithPokemons = inv;
         adapter.updateAdapter(inventoryWithPokemons.pokemons);
         adapter.notifyDataSetChanged();
-        Log.d(TAG, "setupInventoryWithPokemons: Adapter setup");
     }
 
     @Override

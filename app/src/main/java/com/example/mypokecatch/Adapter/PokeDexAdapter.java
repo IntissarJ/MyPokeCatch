@@ -29,10 +29,6 @@ public class PokeDexAdapter extends RecyclerView.Adapter<PokemonViewHolder> impl
         this.pokemonsFiltered = pokemons;
     }
 
-    public PokeDexAdapter() {
-
-    }
-
     public int getPokemonId(int position){
         return pokemons.get(position).getPokemonId();
     }
@@ -46,7 +42,7 @@ public class PokeDexAdapter extends RecyclerView.Adapter<PokemonViewHolder> impl
     @Override
     public PokemonViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.pokemon_item, parent, false);
+        View view = inflater.inflate(R.layout.pokedex_item, parent, false);
         return new PokemonViewHolder(view);
     }
 
