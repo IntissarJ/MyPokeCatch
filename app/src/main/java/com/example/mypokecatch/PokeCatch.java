@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.mypokecatch.Activity.InventoryActivity;
 import com.example.mypokecatch.Activity.MainActivity;
 import com.example.mypokecatch.Adapter.PokemonAdapter;
 import com.example.mypokecatch.ViewModel.PokemonViewModel;
@@ -39,6 +40,8 @@ public class PokeCatch extends AppCompatActivity implements PokemonAdapter.OnPok
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
+        MenuItem item = menu.findItem(R.id.action_search);
+        item.setVisible(false);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -58,6 +61,8 @@ public class PokeCatch extends AppCompatActivity implements PokemonAdapter.OnPok
                 Toast.makeText(this, "PokeCatch", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.menu_inventory:
+                Intent inventory = new Intent(this, InventoryActivity.class);
+                startActivity(inventory);
                 Toast.makeText(this, "Your pokemons", Toast.LENGTH_SHORT).show();
                 return true;
             default:
