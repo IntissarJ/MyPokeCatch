@@ -13,6 +13,7 @@ public class Pokemon implements iPokemon {
 
     private String name;
     private String url;
+    private String image;
 
     public Pokemon(String name, String url) {
         this.name = name;
@@ -42,4 +43,10 @@ public class Pokemon implements iPokemon {
     public void setUrl(String url) {
         this.url = url;
     }
+
+    @Override
+    public String getImage() { return image; }
+
+    @Override
+    public void setImage(String url) { this.image = image; }
 }

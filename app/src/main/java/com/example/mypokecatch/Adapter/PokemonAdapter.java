@@ -1,5 +1,9 @@
 package com.example.mypokecatch.Adapter;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,10 +43,17 @@ public class PokemonAdapter extends PokeDexAdapter implements Filterable {
         iPokemon customPokemon = getPokemonsFiltered().get(position);
 
         // set pokemon image
-        Glide.with(holder.itemView.getContext()).
-                load("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" +
-                        customPokemon.getPokemonId() + ".png")
-                .into(holder.getImageView());
+        if(customPokemon.getImage() != null){
+            Glide.with(holder.itemView.getContext()).
+                    load(customPokemon.getImage())
+                    .into(holder.getImageView());
+        } else {
+            Glide.with(holder.itemView.getContext()).
+                    load("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" +
+                            customPokemon.getPokemonId() + ".png")
+                    .into(holder.getImageView());
+
+        }
         //set pokemon name
         holder.getTextView().setText(customPokemon.getName());
     }

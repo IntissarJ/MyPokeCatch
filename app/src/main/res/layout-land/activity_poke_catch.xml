@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PokeCatch">
+
+    <ImageView
+        android:id="@+id/pokecatch_image"
+        android:layout_width="259dp"
+        android:layout_height="245dp"
+        android:layout_marginStart="56dp"
+        android:layout_marginLeft="56dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.581"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/pokecatch_name"
+        android:layout_width="194dp"
+        android:layout_height="41dp"
+        android:layout_marginStart="79dp"
+        android:layout_marginLeft="79dp"
+        android:layout_marginEnd="147dp"
+        android:layout_marginRight="147dp"
+        android:layout_marginBottom="40dp"
+        android:fontFamily="monospace"
+        android:text="pokemonName"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/pokecatch_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/pokecatch_image"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.959" />
+
+    <Button
+        android:id="@+id/pokecatch_button"
+        android:layout_width="199dp"
+        android:layout_height="114dp"
+        android:layout_marginStart="218dp"
+        android:layout_marginLeft="218dp"
+        android:layout_marginEnd="140dp"
+        android:layout_marginRight="140dp"
+        android:layout_marginBottom="68dp"
+        android:text="Catch!"
+        android:textSize="24sp"
+        app:backgroundTint="#F30F0F"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/pokecatch_image" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
