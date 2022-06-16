@@ -14,4 +14,8 @@ public interface iPokemon {
 
     void setUrl(String url);
 
+    String getImage();
+
+    void setImage(String url);
+
 }

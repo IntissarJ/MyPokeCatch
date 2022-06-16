@@ -8,7 +8,7 @@ public class InventoryCustomPokemonCrossRef {
     public int inventoryId;
     public int pokemonId;
 
-    public InventoryCustomPokemonCrossRef(int inventoryId, int pokemonId) {
+    public InventoryCustomPokemonCrossRef(int pokemonId, int inventoryId) {
         this.inventoryId = inventoryId;
         this.pokemonId = pokemonId;
     }

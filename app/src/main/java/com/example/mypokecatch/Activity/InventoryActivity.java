@@ -68,6 +68,7 @@ public class InventoryActivity extends AppCompatActivity implements PokemonAdapt
         adapter = new PokemonAdapter(new ArrayList<>(), this);
         RecyclerView recyclerView = findViewById(R.id.inventoryRecycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        Log.i("TAG", modelInventory.getInventory().toString());
         recyclerView.setAdapter(this.adapter);
     }
 
@@ -89,6 +90,7 @@ public class InventoryActivity extends AppCompatActivity implements PokemonAdapt
         modelInventory.getAllPokemon(inventory).observe(this, inventoryWithPokis -> {
             if (inventoryWithPokis != null) {
                 inventoryWithPokemons = inventoryWithPokis;
+                Log.i(TAG,"null or : " + inventoryWithPokemons.customPokemons.size());
                 setupInventoryWithPokemons();
             }
         });

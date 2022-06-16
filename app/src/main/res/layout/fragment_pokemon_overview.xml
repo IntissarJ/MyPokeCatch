@@ -18,7 +18,10 @@
                     android:layout_height="730dp"
                     android:tag="pokemonRecycleView"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:spanCount="1"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"/>
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

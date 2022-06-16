@@ -13,6 +13,7 @@ public class CustomPokemon implements iPokemon {
 
     private String name;
     private String url;
+    private String image;
 
     public CustomPokemon(String name, String url) {
         this.name = name;
@@ -42,4 +43,14 @@ public class CustomPokemon implements iPokemon {
     public void setUrl(String url) {
         this.url = url;
     }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+
 }

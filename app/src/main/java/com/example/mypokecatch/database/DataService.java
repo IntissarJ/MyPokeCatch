@@ -87,7 +87,8 @@ public class DataService extends Service {
                             JSONObject result = results.getJSONObject(i);
                             String name = result.getString("name");
 
-                            repo.insert(new Pokemon(
+                            Pokemon poke;
+                            repo.insert( poke = new Pokemon(
                                     name.substring(0, 1).toUpperCase() + name.substring(1),
                                     result.getString("url")
                             ));
