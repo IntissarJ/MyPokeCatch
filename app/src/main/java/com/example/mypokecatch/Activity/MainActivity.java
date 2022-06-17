@@ -1,5 +1,7 @@
 package com.example.mypokecatch.Activity;
 
+import static android.os.Debug.waitForDebugger;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -24,6 +26,7 @@ import com.example.mypokecatch.R;
 import com.example.mypokecatch.ViewModel.PokemonViewModel;
 import com.example.mypokecatch.database.CustomPokemonData.CustomPokemon;
 import com.example.mypokecatch.database.DataService;
+import com.example.mypokecatch.database.PokemonData.Pokemon;
 import com.example.mypokecatch.database.iPokemon;
 
 import java.util.ArrayList;
@@ -47,18 +50,21 @@ public class MainActivity extends AppCompatActivity{
                 new IntentFilter("custom-event-name"));
 
         //        pokedexRecycler
+        waitForDebugger();
         adapter = new PokeDexAdapter(new ArrayList<>());
         RecyclerView recyclerView = findViewById(R.id.pokedexRecycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(this.adapter);
 
         model.getAllPokemons().observe(this , pokis -> {
-            if (pokis != null) {
+            if (pokis != null && pokis.size() > 0) {
+                waitForDebugger();
                 adapter.updateAdapter((List<iPokemon>) (Object) pokis);
                 adapter.notifyDataSetChanged();
             }
         });
     }
+
 
     private void RefreshData() {
         model.updateVM();

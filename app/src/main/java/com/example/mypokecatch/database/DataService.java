@@ -79,7 +79,8 @@ public class DataService extends Service {
             return true;
         }
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url.toString(), null,
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
+                url.toString(), null,
                 response -> {
                     try {
                         JSONArray results = response.getJSONArray("results");

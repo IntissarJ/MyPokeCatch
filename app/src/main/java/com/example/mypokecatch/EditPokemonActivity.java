@@ -122,10 +122,12 @@ public class EditPokemonActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Uri selectedImage = data.getData();
 
-        imageView.setImageURI(selectedImage);
-        customPokemon.setImage(selectedImage.toString());
+        if (data != null && data.getData() != null) {
+            Uri selectedImage = data.getData();
+            imageView.setImageURI(selectedImage);
+            customPokemon.setImage(selectedImage.toString());
+        }
 
     }
 }
