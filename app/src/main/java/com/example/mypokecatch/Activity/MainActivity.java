@@ -139,6 +139,11 @@ public class MainActivity extends AppCompatActivity{
                 startActivity(inventory);
                 Toast.makeText(this, "Your pokemons", Toast.LENGTH_SHORT).show();
                 return true;
+            case R.id.menu_settings:
+                Intent settings = new Intent(this, SettingsActivity.class);
+                startActivity(settings);
+                Toast.makeText(this, "Settings", Toast.LENGTH_SHORT).show();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
