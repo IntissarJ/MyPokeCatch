@@ -30,7 +30,8 @@ import com.example.mypokecatch.database.iPokemon;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InventoryActivity extends AppCompatActivity implements PokemonAdapter.OnPokemonListener {
+public class InventoryActivity extends AppCompatActivity
+        implements PokemonAdapter.OnPokemonListener {
 
     private static final String TAG = "INVENTORY_ACTIVITY";
     private PokemonAdapter adapter;
@@ -122,7 +123,14 @@ public class InventoryActivity extends AppCompatActivity implements PokemonAdapt
                 Toast.makeText(this, "PokeCatch", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.menu_inventory:
+                Intent inventory = new Intent(this, InventoryActivity.class);
+                startActivity(inventory);
                 Toast.makeText(this, "Your pokemons", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.menu_settings:
+                Intent settings = new Intent(this, SettingsActivity.class);
+                startActivity(settings);
+                Toast.makeText(this, "Settings", Toast.LENGTH_SHORT).show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
