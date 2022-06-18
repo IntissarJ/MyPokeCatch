@@ -54,6 +54,7 @@ public class InventoryActivity extends AppCompatActivity
 
         if (modelInventory.isEmpty()) {
             createFirstInventory();
+            createFirstPokemon();
             createInventoryPokemonLink();
         }
 
@@ -79,6 +80,10 @@ public class InventoryActivity extends AppCompatActivity
     private void createFirstInventory() {
         inventory = new Inventory();
         modelInventory.insert(inventory);
+    }
+    private void createFirstPokemon() {
+        customPokemon = new CustomPokemon("Bulbasaur", "https://pokeapi.co/api/v2/pokemon/1/");
+        modelCustomPokemon.insert(customPokemon);
     }
 
     private void setupView() {

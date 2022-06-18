@@ -33,7 +33,7 @@ public interface PokemonDao {
     LiveData<Pokemon> getAPokemon();
 
 
-    @Query("SELECT * FROM pokemon_table ORDER BY pokemonId desc")
+    @Query("SELECT * FROM pokemon_table ORDER BY pokemonId asc")
     LiveData<List<Pokemon>> getAllPokemons();
 
     @Query("SELECT COUNT(*) FROM pokemon_table")
