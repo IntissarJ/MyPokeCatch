@@ -61,7 +61,7 @@ public class DataService extends Service {
         URL url;
         try
         {
-            url = new URL("https://pokeapi.co/api/v2/pokemon?limit=100");
+            url = new URL("https://pokeapi.co/api/v2/pokemon?limit=898");
             return onInitializePokemons(url);
         }
         catch (MalformedURLException e)

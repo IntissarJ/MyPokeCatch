@@ -72,7 +72,7 @@ public class PokeCatch extends AppCompatActivity implements PokemonAdapter.OnPok
 
     public void randomPokemon(){
         Random r = new Random();
-        int randomInt = r.nextInt(100) + 1;
+        int randomInt = r.nextInt(pokemons.size());
 
         pokemon = pokemons.get(randomInt);
         pokeImg = findViewById(R.id.pokecatch_image);

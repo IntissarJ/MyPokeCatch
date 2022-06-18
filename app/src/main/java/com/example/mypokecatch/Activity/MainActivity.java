@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity{
         // Search menu item
         MenuItem searchItem = menu.findItem(R.id.action_search);
         SearchView searchview = (SearchView) searchItem.getActionView();
-        searchview.setQueryHint("Type voor pokemon naam");
+        searchview.setQueryHint("Type for pokemon name");
         searchview.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
