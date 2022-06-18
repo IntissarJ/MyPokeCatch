@@ -33,7 +33,8 @@
             android:exported="false" />
         <activity
             android:name=".Activity.SettingsActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".Activity.MainActivity" />
         <activity
             android:name=".EditPokemonActivity"
             android:exported="false"

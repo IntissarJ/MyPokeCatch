@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-<!--    <SwitchPreference-->
-<!--        android:defaultValue="true"-->
-<!--        android:key="show"-->
-<!--        android:title="Show customPokemon" />-->
+
     <CheckBoxPreference
         android:defaultValue="false"
         android:key="cheatmode"
-        android:title="Always catch cheat" />
+        android:title="Always catch pokemon cheat" />
 
 </PreferenceScreen>

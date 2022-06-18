@@ -32,17 +32,9 @@ public class SettingsActivity extends AppCompatActivity {
         @Override
         public void onCreate(@Nullable Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-
             addPreferencesFromResource(R.xml.settings_main);
 
-            Preference pref = findPreference("cheatmode");
-            pref.setOnPreferenceChangeListener((preference, o) -> {
-                waitForDebugger();
-                return false;
-            });
-
         }
-
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
 
@@ -52,6 +44,8 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
+        MenuItem item = menu.findItem(R.id.action_search);
+        item.setVisible(false);
         return super.onCreateOptionsMenu(menu);
     }
 

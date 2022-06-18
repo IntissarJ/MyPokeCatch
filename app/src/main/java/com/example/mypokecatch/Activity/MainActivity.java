@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -50,7 +51,7 @@ public class MainActivity extends AppCompatActivity{
                 new IntentFilter("custom-event-name"));
 
         //        pokedexRecycler
-        waitForDebugger();
+        //waitForDebugger();
         adapter = new PokeDexAdapter(new ArrayList<>());
         RecyclerView recyclerView = findViewById(R.id.pokedexRecycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -58,7 +59,7 @@ public class MainActivity extends AppCompatActivity{
 
         model.getAllPokemons().observe(this , pokis -> {
             if (pokis != null && pokis.size() > 0) {
-                waitForDebugger();
+                //waitForDebugger();
                 adapter.updateAdapter((List<iPokemon>) (Object) pokis);
                 adapter.notifyDataSetChanged();
             }

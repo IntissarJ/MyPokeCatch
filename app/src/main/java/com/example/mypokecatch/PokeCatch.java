@@ -2,8 +2,8 @@ package com.example.mypokecatch;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
@@ -12,32 +12,25 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.preference.PreferenceManager;
 
 import com.bumptech.glide.Glide;
 import com.example.mypokecatch.Activity.InventoryActivity;
 import com.example.mypokecatch.Activity.MainActivity;
+import com.example.mypokecatch.Activity.SettingsActivity;
 import com.example.mypokecatch.Adapter.PokemonAdapter;
 import com.example.mypokecatch.ViewModel.CustomPokemonViewModel;
 import com.example.mypokecatch.ViewModel.InventoryViewModel;
 import com.example.mypokecatch.ViewModel.PokemonViewModel;
 import com.example.mypokecatch.database.CustomPokemonData.CustomPokemon;
-import com.example.mypokecatch.database.CustomPokemonData.CustomPokemonRepository;
-import com.example.mypokecatch.database.DataService;
-import com.example.mypokecatch.database.InventoryData.Inventory;
-import com.example.mypokecatch.database.InventoryData.InventoryRepository;
-import com.example.mypokecatch.database.InventoryPokemonData.InventoryCustomPokemonCrossRef;
-import com.example.mypokecatch.database.InventoryPokemonData.InventoryWithCustomPokemons;
-import com.example.mypokecatch.database.PokemonData.Pokemon;
-import com.example.mypokecatch.database.PokemonData.PokemonRepository;
 import com.example.mypokecatch.database.iPokemon;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class PokeCatch extends AppCompatActivity implements PokemonAdapter.OnPokemonListener{
 
@@ -54,10 +47,15 @@ public class PokeCatch extends AppCompatActivity implements PokemonAdapter.OnPok
     private InventoryViewModel modelInventory;
     private CustomPokemon customPokemon;
 
+    private boolean cheatmode;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_poke_catch);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        cheatmode = preferences.getBoolean("cheatmode", false);
+
         model = new ViewModelProvider(this).get(PokemonViewModel.class);
         modelCustomPokemon = new ViewModelProvider(this).get(CustomPokemonViewModel.class);
         modelInventory = new ViewModelProvider(this).get(InventoryViewModel.class);
@@ -90,23 +88,40 @@ public class PokeCatch extends AppCompatActivity implements PokemonAdapter.OnPok
     }
 
     public void catchPokemon(){
+
+
+        Random r = new Random();
+        AtomicInteger chance = new AtomicInteger(r.nextInt(4));
+
+        if(cheatmode){
+            chance.set(1);
+        }
         catchButton = findViewById(R.id.pokecatch_button);
 
-        modelCustomPokemon.getPokemon(pokemon.getPokemonId()).observe(this, poki -> {
-            catchButton.setOnClickListener(view -> {
-                if(poki != null){
-                    Toast.makeText(this, "You already have" + pokemon.getName(), Toast.LENGTH_LONG).show();
-                    randomPokemon();
-                } else {
-                    customPokemon = new CustomPokemon(pokemon.getName(),pokemon.getUrl());
-                    customPokemon.setPokemonId(pokemon.getPokemonId());
-                    modelCustomPokemon.insert(customPokemon);
-                    modelInventory.insertPokemon(pokemon.getPokemonId(), 1);
-                    finish();
-                }
+            modelCustomPokemon.getPokemon(pokemon.getPokemonId()).observe(this, poki -> {
+                catchButton.setOnClickListener(view -> {
+                    if (poki != null) {
+                        Toast.makeText(this, "You already have " + pokemon.getName(), Toast.LENGTH_LONG).show();
+                        randomPokemon();
+                    } else {
+                        if(chance.get() == 1) {
+                            customPokemon = new CustomPokemon(pokemon.getName(), pokemon.getUrl());
+                            customPokemon.setPokemonId(pokemon.getPokemonId());
+                            modelCustomPokemon.insert(customPokemon);
+                            modelInventory.insertPokemon(pokemon.getPokemonId(), 1);
+                            Toast.makeText(this, "You catched! " + pokemon.getName(), Toast.LENGTH_SHORT).show();
+                            Intent inventory = new Intent(this, InventoryActivity.class);
+                            startActivity(inventory);
+                            finish();
+                        } else {
+                            Toast.makeText(this, "You missed ", Toast.LENGTH_SHORT).show();
+                            chance.set(r.nextInt(4));
+                        }
+                    }
+                });
             });
-        });
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -136,9 +151,20 @@ public class PokeCatch extends AppCompatActivity implements PokemonAdapter.OnPok
                 startActivity(inventory);
                 Toast.makeText(this, "Your pokemons", Toast.LENGTH_SHORT).show();
                 return true;
+            case R.id.menu_settings:
+                Intent settings = new Intent(this, SettingsActivity.class);
+                startActivityForResult(settings, 1);
+                Toast.makeText(this, "Settings", Toast.LENGTH_SHORT).show();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        randomPokemon();
     }
 
     @Override
