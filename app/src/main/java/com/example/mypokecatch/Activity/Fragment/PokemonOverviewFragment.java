@@ -1,4 +1,4 @@
-package com.example.mypokecatch;
+package com.example.mypokecatch.Activity.Fragment;
 
 import android.os.Bundle;
 
@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.example.mypokecatch.Adapter.PokemonAdapter;
+import com.example.mypokecatch.R;
 
 
 public class PokemonOverviewFragment extends Fragment {

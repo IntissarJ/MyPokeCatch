@@ -29,14 +29,14 @@
             android:label="@string/title_activity_inventory"
             />
         <activity
-            android:name=".PokeCatch"
+            android:name=".Activity.PokeCatchActivity"
             android:exported="false" />
         <activity
             android:name=".Activity.SettingsActivity"
             android:exported="false"
             android:parentActivityName=".Activity.MainActivity" />
         <activity
-            android:name=".EditPokemonActivity"
+            android:name=".Activity.EditPokemonActivity"
             android:exported="false"
             android:parentActivityName=".Activity.MainActivity" />
         <activity

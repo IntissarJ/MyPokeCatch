@@ -1,4 +1,4 @@
-package com.example.mypokecatch;
+package com.example.mypokecatch.Activity;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.mypokecatch.R;
 import com.example.mypokecatch.ViewModel.CustomPokemonViewModel;
 import com.example.mypokecatch.database.CustomPokemonData.CustomPokemon;
 import com.example.mypokecatch.ViewModel.PokemonViewModel;

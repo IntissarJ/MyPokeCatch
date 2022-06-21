@@ -15,8 +15,6 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.mypokecatch.Adapter.PokemonAdapter;
-import com.example.mypokecatch.EditPokemonActivity;
-import com.example.mypokecatch.PokeCatch;
 import com.example.mypokecatch.R;
 import com.example.mypokecatch.ViewModel.CustomPokemonViewModel;
 import com.example.mypokecatch.ViewModel.InventoryViewModel;
@@ -24,7 +22,6 @@ import com.example.mypokecatch.ViewModel.PokemonViewModel;
 import com.example.mypokecatch.database.CustomPokemonData.CustomPokemon;
 import com.example.mypokecatch.database.InventoryData.Inventory;
 import com.example.mypokecatch.database.InventoryPokemonData.InventoryWithCustomPokemons;
-import com.example.mypokecatch.database.PokemonData.Pokemon;
 import com.example.mypokecatch.database.iPokemon;
 
 import java.util.ArrayList;
@@ -117,7 +114,7 @@ public class InventoryActivity extends AppCompatActivity
                 Toast.makeText(this, "Pokedex", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.menu_pokecatch:
-                Intent pokeCatching = new Intent(this, PokeCatch.class);
+                Intent pokeCatching = new Intent(this, PokeCatchActivity.class);
                 startActivity(pokeCatching);
                 Toast.makeText(this, "PokeCatch", Toast.LENGTH_SHORT).show();
                 return true;

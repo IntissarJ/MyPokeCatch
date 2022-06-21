@@ -1,4 +1,4 @@
-package com.example.mypokecatch;
+package com.example.mypokecatch.Activity;
 
 
 import android.content.Intent;
@@ -18,10 +18,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 
 import com.bumptech.glide.Glide;
-import com.example.mypokecatch.Activity.InventoryActivity;
-import com.example.mypokecatch.Activity.MainActivity;
-import com.example.mypokecatch.Activity.SettingsActivity;
 import com.example.mypokecatch.Adapter.PokemonAdapter;
+import com.example.mypokecatch.R;
 import com.example.mypokecatch.ViewModel.CustomPokemonViewModel;
 import com.example.mypokecatch.ViewModel.InventoryViewModel;
 import com.example.mypokecatch.ViewModel.PokemonViewModel;
@@ -32,7 +30,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class PokeCatch extends AppCompatActivity implements PokemonAdapter.OnPokemonListener{
+public class PokeCatchActivity extends AppCompatActivity implements PokemonAdapter.OnPokemonListener {
 
     private List<iPokemon> pokemons;
 
@@ -70,7 +68,7 @@ public class PokeCatch extends AppCompatActivity implements PokemonAdapter.OnPok
 
     }
 
-    public void randomPokemon(){
+    public void randomPokemon() {
         Random r = new Random();
         int randomInt = r.nextInt(pokemons.size());
 
@@ -87,39 +85,39 @@ public class PokeCatch extends AppCompatActivity implements PokemonAdapter.OnPok
         catchPokemon();
     }
 
-    public void catchPokemon(){
+    public void catchPokemon() {
 
 
         Random r = new Random();
         AtomicInteger chance = new AtomicInteger(r.nextInt(4));
 
-        if(cheatmode){
+        if (cheatmode) {
             chance.set(1);
         }
         catchButton = findViewById(R.id.pokecatch_button);
 
-            modelCustomPokemon.getPokemon(pokemon.getPokemonId()).observe(this, poki -> {
-                catchButton.setOnClickListener(view -> {
-                    if (poki != null) {
-                        Toast.makeText(this, "You already have " + pokemon.getName(), Toast.LENGTH_LONG).show();
-                        randomPokemon();
+        modelCustomPokemon.getPokemon(pokemon.getPokemonId()).observe(this, poki -> {
+            catchButton.setOnClickListener(view -> {
+                if (poki != null) {
+                    Toast.makeText(this, "You already have " + pokemon.getName(), Toast.LENGTH_LONG).show();
+                    randomPokemon();
+                } else {
+                    if (chance.get() == 1) {
+                        customPokemon = new CustomPokemon(pokemon.getName(), pokemon.getUrl());
+                        customPokemon.setPokemonId(pokemon.getPokemonId());
+                        modelCustomPokemon.insert(customPokemon);
+                        modelInventory.insertPokemon(pokemon.getPokemonId(), 1);
+                        Toast.makeText(this, "You catched! " + pokemon.getName(), Toast.LENGTH_SHORT).show();
+                        Intent inventory = new Intent(this, InventoryActivity.class);
+                        startActivity(inventory);
+                        finish();
                     } else {
-                        if(chance.get() == 1) {
-                            customPokemon = new CustomPokemon(pokemon.getName(), pokemon.getUrl());
-                            customPokemon.setPokemonId(pokemon.getPokemonId());
-                            modelCustomPokemon.insert(customPokemon);
-                            modelInventory.insertPokemon(pokemon.getPokemonId(), 1);
-                            Toast.makeText(this, "You catched! " + pokemon.getName(), Toast.LENGTH_SHORT).show();
-                            Intent inventory = new Intent(this, InventoryActivity.class);
-                            startActivity(inventory);
-                            finish();
-                        } else {
-                            Toast.makeText(this, "You missed ", Toast.LENGTH_SHORT).show();
-                            chance.set(r.nextInt(4));
-                        }
+                        Toast.makeText(this, "You missed ", Toast.LENGTH_SHORT).show();
+                        chance.set(r.nextInt(4));
                     }
-                });
+                }
             });
+        });
     }
 
 
@@ -134,15 +132,14 @@ public class PokeCatch extends AppCompatActivity implements PokemonAdapter.OnPok
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        switch(item.getItemId())
-        {
+        switch (item.getItemId()) {
             case R.id.menu_pokedex:
                 Intent home = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(home);
                 Toast.makeText(this, "Pokedex", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.menu_pokecatch:
-                Intent pokeCatching = new Intent(this, PokeCatch.class);
+                Intent pokeCatching = new Intent(this, PokeCatchActivity.class);
                 startActivity(pokeCatching);
                 Toast.makeText(this, "PokeCatch", Toast.LENGTH_SHORT).show();
                 return true;

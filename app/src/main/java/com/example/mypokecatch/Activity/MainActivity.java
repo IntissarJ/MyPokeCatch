@@ -1,12 +1,9 @@
 package com.example.mypokecatch.Activity;
 
-import static android.os.Debug.waitForDebugger;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,12 +19,9 @@ import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.example.mypokecatch.Adapter.PokeDexAdapter;
-import com.example.mypokecatch.PokeCatch;
 import com.example.mypokecatch.R;
 import com.example.mypokecatch.ViewModel.PokemonViewModel;
-import com.example.mypokecatch.database.CustomPokemonData.CustomPokemon;
 import com.example.mypokecatch.database.DataService;
-import com.example.mypokecatch.database.PokemonData.Pokemon;
 import com.example.mypokecatch.database.iPokemon;
 
 import java.util.ArrayList;
@@ -131,7 +125,7 @@ public class MainActivity extends AppCompatActivity{
                 Toast.makeText(this, "Pokedex", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.menu_pokecatch:
-                Intent pokeCatching = new Intent(this, PokeCatch.class);
+                Intent pokeCatching = new Intent(this, PokeCatchActivity.class);
                 startActivity(pokeCatching);
                 Toast.makeText(this, "PokeCatch", Toast.LENGTH_SHORT).show();
                 return true;
